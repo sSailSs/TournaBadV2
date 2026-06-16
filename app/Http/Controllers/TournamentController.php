@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Player;
-use App\Models\TournamentMatch;
 use App\Models\Round;
 use App\Models\RoundWaitingPlayer;
 use App\Models\Tournament;
+use App\Models\TournamentMatch;
 use App\Models\TournamentTeam;
 use App\Services\MatchScoreRecorder;
 use App\Services\RoundGenerator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class TournamentController extends Controller

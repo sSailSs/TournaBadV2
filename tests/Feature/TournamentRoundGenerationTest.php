@@ -30,7 +30,7 @@ class TournamentRoundGenerationTest extends TestCase
         foreach (range(1, 7) as $index) {
             Player::create([
                 'tournament_id' => $tournament->id,
-                'first_name' => 'Joueur ' . $index,
+                'first_name' => 'Joueur '.$index,
                 'last_name' => null,
                 'email' => null,
                 'is_active' => true,
@@ -93,7 +93,7 @@ class TournamentRoundGenerationTest extends TestCase
         foreach (range(1, 8) as $index) {
             Player::create([
                 'tournament_id' => $tournament->id,
-                'first_name' => 'Joueur ' . $index,
+                'first_name' => 'Joueur '.$index,
                 'last_name' => null,
                 'email' => null,
                 'is_active' => true,
@@ -142,7 +142,7 @@ class TournamentRoundGenerationTest extends TestCase
         foreach (range(1, 26) as $index) {
             Player::create([
                 'tournament_id' => $tournament->id,
-                'first_name' => 'Joueur ' . $index,
+                'first_name' => 'Joueur '.$index,
                 'last_name' => null,
                 'email' => null,
                 'is_active' => true,

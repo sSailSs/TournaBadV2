@@ -7,8 +7,8 @@ use App\Models\Round;
 use App\Models\RoundWaitingPlayer;
 use App\Models\Tournament;
 use App\Models\TournamentMatch;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class RoundGenerator
@@ -185,33 +185,33 @@ class RoundGenerator
                 ->sortBy('court_number')
                 ->values()
                 ->map(function (TournamentMatch $match, int $index) use ($previousMatchesCount, $hasPredefinedTeams, $teamsById) {
-                $teamAPlayers = $match->players->where('pivot.team_number', 1)->values();
-                $teamBPlayers = $match->players->where('pivot.team_number', 2)->values();
-                $teamAPlayerNames = $this->playerNames($teamAPlayers);
-                $teamBPlayerNames = $this->playerNames($teamBPlayers);
-                $teamADisplay = $hasPredefinedTeams ? $this->displayTeam($teamAPlayers, $teamsById) : null;
-                $teamBDisplay = $hasPredefinedTeams ? $this->displayTeam($teamBPlayers, $teamsById) : null;
+                    $teamAPlayers = $match->players->where('pivot.team_number', 1)->values();
+                    $teamBPlayers = $match->players->where('pivot.team_number', 2)->values();
+                    $teamAPlayerNames = $this->playerNames($teamAPlayers);
+                    $teamBPlayerNames = $this->playerNames($teamBPlayers);
+                    $teamADisplay = $hasPredefinedTeams ? $this->displayTeam($teamAPlayers, $teamsById) : null;
+                    $teamBDisplay = $hasPredefinedTeams ? $this->displayTeam($teamBPlayers, $teamsById) : null;
 
-                $payload = [
-                    'id' => $match->id,
-                    'match_number' => $previousMatchesCount + $index + 1,
-                    'court_number' => $match->court_number,
-                    'match_type' => $match->match_type,
-                    'status' => $match->status,
-                    'score' => $match->score ? [
-                        'team_one_score' => $match->score->team_one_score,
-                        'team_two_score' => $match->score->team_two_score,
-                    ] : null,
-                    'team_a' => $teamADisplay ? [$teamADisplay['label']] : $teamAPlayerNames,
-                    'team_b' => $teamBDisplay ? [$teamBDisplay['label']] : $teamBPlayerNames,
-                ];
+                    $payload = [
+                        'id' => $match->id,
+                        'match_number' => $previousMatchesCount + $index + 1,
+                        'court_number' => $match->court_number,
+                        'match_type' => $match->match_type,
+                        'status' => $match->status,
+                        'score' => $match->score ? [
+                            'team_one_score' => $match->score->team_one_score,
+                            'team_two_score' => $match->score->team_two_score,
+                        ] : null,
+                        'team_a' => $teamADisplay ? [$teamADisplay['label']] : $teamAPlayerNames,
+                        'team_b' => $teamBDisplay ? [$teamBDisplay['label']] : $teamBPlayerNames,
+                    ];
 
-                if ($teamADisplay && $teamBDisplay) {
-                    $payload['team_a_display'] = $teamADisplay;
-                    $payload['team_b_display'] = $teamBDisplay;
-                }
+                    if ($teamADisplay && $teamBDisplay) {
+                        $payload['team_a_display'] = $teamADisplay;
+                        $payload['team_b_display'] = $teamBDisplay;
+                    }
 
-                return $payload;
+                    return $payload;
                 })->all(),
             'waiting' => $this->displayWaitingPlayers($round->waitingPlayers, $hasPredefinedTeams, $teamsById),
         ];
@@ -517,6 +517,7 @@ class RoundGenerator
 
                 if ($teamOne === null || $teamTwo === null) {
                     $waiting->push($teamOne ?? $teamTwo);
+
                     continue;
                 }
 
@@ -1035,6 +1036,6 @@ class RoundGenerator
         $ordered = [$a, $b];
         sort($ordered, SORT_NUMERIC);
 
-        return $ordered[0] . ':' . $ordered[1];
+        return $ordered[0].':'.$ordered[1];
     }
 }

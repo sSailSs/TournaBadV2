@@ -1,4 +1,5 @@
 <?php
+
 if (PHP_SAPI === 'cli-server') {
     $path = urldecode(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/');
 
