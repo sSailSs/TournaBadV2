@@ -7,11 +7,17 @@ on:
       - master
   pull_request:
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      INFISICAL_IDENTITY_ID: ${{ secrets.INFISICAL_IDENTITY_ID }}
+      INFISICAL_PROJECT_SLUG: ${{ secrets.INFISICAL_PROJECT_SLUG }}
 
     steps:
       - name: Checkout code
@@ -51,6 +57,21 @@ jobs:
 
       - name: Run tests
         run: composer test
+
+      - name: Fetch staging secrets from Infisical
+        if: env.INFISICAL_IDENTITY_ID != '' && env.INFISICAL_PROJECT_SLUG != ''
+        uses: Infisical/secrets-action@v1.0.9
+        with:
+          method: oidc
+          identity-id: ${{ env.INFISICAL_IDENTITY_ID }}
+          project-slug: ${{ env.INFISICAL_PROJECT_SLUG }}
+          env-slug: staging
+
+      - name: Validate Infisical staging env
+        if: env.INFISICAL_IDENTITY_ID != '' && env.INFISICAL_PROJECT_SLUG != ''
+        run: |
+          test -n "$APP_ENV"
+          test "$APP_ENV" = "staging"
 
       - name: SonarQube scan
         if: env.SONAR_TOKEN != ''
