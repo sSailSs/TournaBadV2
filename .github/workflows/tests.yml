@@ -60,6 +60,7 @@ jobs:
 
       - name: Fetch staging secrets from Infisical
         if: env.INFISICAL_IDENTITY_ID != '' && env.INFISICAL_PROJECT_SLUG != ''
+        continue-on-error: true
         uses: Infisical/secrets-action@v1.0.9
         with:
           method: oidc
@@ -68,7 +69,7 @@ jobs:
           env-slug: staging
 
       - name: Validate Infisical staging env
-        if: env.INFISICAL_IDENTITY_ID != '' && env.INFISICAL_PROJECT_SLUG != ''
+        if: env.INFISICAL_IDENTITY_ID != '' && env.INFISICAL_PROJECT_SLUG != '' && env.APP_ENV != ''
         run: |
           test -n "$APP_ENV"
           test "$APP_ENV" = "staging"
