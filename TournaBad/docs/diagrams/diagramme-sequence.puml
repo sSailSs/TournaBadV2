@@ -1,0 +1,30 @@
+@startuml
+title TournaBad - Diagramme de sequence simple
+
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+
+actor Utilisateur
+participant "Page du tournoi" as Page
+participant "Controleur" as Controller
+participant "Generateur de tour" as Generator
+database "Base de donnees" as DB
+
+Utilisateur -> Page : clique sur "Generer un tour"
+Page -> Controller : demander un nouveau tour
+
+Controller -> Generator : generer le tour
+
+Generator -> DB : recuperer les joueurs
+DB --> Generator : renvoyer les joueurs
+
+Generator -> Generator : organiser les matchs
+
+Generator -> DB : enregistrer le tour et les matchs
+DB --> Generator : confirmation
+
+Generator --> Controller : tour genere
+Controller --> Page : envoyer le nouveau tour
+Page --> Utilisateur : afficher les matchs
+
+@enduml

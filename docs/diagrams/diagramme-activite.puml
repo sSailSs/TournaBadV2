@@ -1,0 +1,25 @@
+@startuml
+title TournaBad - Diagramme d'activite : generation d'un tour
+
+skinparam shadowing false
+
+start
+
+:L'organisateur ouvre la page du tournoi;
+:Il clique sur "Generer un tour";
+
+:Le systeme recupere les joueurs actifs;
+
+if (Assez de joueurs ?) then (oui)
+  :Le systeme organise les joueurs;
+  :Le systeme cree les matchs;
+  :Le systeme met certains joueurs en attente si besoin;
+  :Le systeme enregistre le tour;
+  :Les matchs sont affiches a l'organisateur;
+else (non)
+  :Le systeme affiche un message d'erreur;
+endif
+
+stop
+
+@enduml

@@ -1,0 +1,97 @@
+@startuml
+title TournaBad - MCD simplifie
+
+skinparam shadowing false
+skinparam linetype ortho
+
+entity "UTILISATEUR" as Utilisateur {
+  *id
+  --
+  nom
+  email
+  mot_de_passe
+}
+
+entity "TOURNOI" as Tournoi {
+  *id
+  --
+  nom
+  date_debut
+  nombre_terrains
+  duree_tour
+  statut
+  format
+}
+
+entity "JOUEUR" as Joueur {
+  *id
+  --
+  prenom
+  actif
+  points
+}
+
+entity "TOUR" as Tour {
+  *id
+  --
+  numero
+  statut
+  date_generation
+}
+
+entity "MATCH" as Match {
+  *id
+  --
+  terrain
+  type_match
+  statut
+}
+
+entity "SCORE" as Score {
+  *id
+  --
+  score_equipe_1
+  score_equipe_2
+  date_saisie
+}
+
+entity "PARTICIPATION_MATCH" as ParticipationMatch {
+  *id
+  --
+  numero_equipe
+}
+
+entity "JOUEUR_EN_ATTENTE" as JoueurEnAttente {
+  *id
+}
+
+Utilisateur ||--o{ Tournoi : cree
+Utilisateur ||--o{ Joueur : ajoute
+Utilisateur ||--o{ Score : saisit
+
+Tournoi ||--o{ Joueur : contient
+Tournoi ||--o{ Tour : possede
+
+Tour ||--o{ Match : contient
+Tour ||--o{ JoueurEnAttente : met_en_attente
+
+Joueur ||--o{ JoueurEnAttente : est_en_attente
+
+Match ||--o{ ParticipationMatch : contient
+Joueur ||--o{ ParticipationMatch : participe
+
+Match ||--o| Score : possede
+
+note right of Tournoi
+  Le champ format permet de savoir
+  si le tournoi est en 2 vs 2
+  ou en mode equipe.
+end note
+
+note bottom of ParticipationMatch
+  numero_equipe indique si le joueur
+  joue dans l'equipe 1 ou l'equipe 2
+  pendant le match.
+end note
+
+@enduml

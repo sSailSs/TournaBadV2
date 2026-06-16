@@ -1,0 +1,129 @@
+@startuml
+title TournaBad - Diagramme de classes
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+
+class User {
+  +id
+  +name
+  +email
+  +profile_photo_path
+}
+
+class Tournament {
+  +id
+  +name
+  +starts_on
+  +courts_count
+  +round_duration_minutes
+  +status
+  +format
+  +team_assignment_mode
+  +team_size
+}
+
+class Player {
+  +id
+  +first_name
+  +is_active
+  +points
+  +manual_points_adjustment
+}
+
+class TournamentTeam {
+  +id
+  +name
+  +team_label
+  +position
+}
+
+class Round {
+  +id
+  +round_number
+  +status
+  +generated_at
+  +started_at
+  +ended_at
+}
+
+class TournamentMatch {
+  +id
+  +court_number
+  +match_type
+  +status
+}
+
+class MatchPlayer {
+  +id
+  +team_number
+}
+
+class MatchScore {
+  +id
+  +team_one_score
+  +team_two_score
+  +recorded_at
+}
+
+class RoundWaitingPlayer {
+  +id
+}
+
+class TournamentTeamPlayer {
+  +id
+  +position
+}
+
+class RoundGenerator {
+  +generate(tournament)
+}
+
+class MatchScoreRecorder {
+  +record(match, scoreEquipe1, scoreEquipe2, userId)
+}
+
+User "1" -- "0..*" Tournament : cree
+User "1" -- "0..*" Player : ajoute
+User "1" -- "0..*" MatchScore : enregistre
+
+Tournament "1" -- "0..*" Player : contient
+Tournament "1" -- "0..*" TournamentTeam : organise
+Tournament "1" -- "0..*" Round : possede
+Tournament "1" -- "0..*" TournamentMatch : contient
+
+TournamentTeam "1" -- "0..*" TournamentTeamPlayer
+Player "1" -- "0..*" TournamentTeamPlayer
+
+Round "1" -- "0..*" TournamentMatch : genere
+Round "1" -- "0..*" RoundWaitingPlayer : met en attente
+Player "1" -- "0..*" RoundWaitingPlayer
+
+TournamentMatch "1" -- "0..*" MatchPlayer : participants
+Player "1" -- "0..*" MatchPlayer
+
+TournamentMatch "1" -- "0..1" MatchScore : score
+
+RoundGenerator ..> Tournament : utilise
+RoundGenerator ..> Round : cree
+RoundGenerator ..> TournamentMatch : cree
+RoundGenerator ..> RoundWaitingPlayer : cree
+
+MatchScoreRecorder ..> TournamentMatch : utilise
+MatchScoreRecorder ..> MatchScore : cree/modifie
+MatchScoreRecorder ..> Player : met a jour points
+
+note right of Tournament
+  Classe principale :
+  elle regroupe les joueurs,
+  les tours, les matchs
+  et les equipes.
+end note
+
+note bottom of MatchPlayer
+  Table d'association entre
+  un match et ses joueurs.
+end note
+
+@enduml

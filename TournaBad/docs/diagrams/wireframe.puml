@@ -1,0 +1,44 @@
+@startuml
+title TournaBad - Wireframe simplifie
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam rectangle {
+  RoundCorner 8
+}
+
+rectangle "En-tete\nTournaBad | Mes tournois | Compte" as Header
+
+rectangle "Page 1 : Mes tournois" as PageIndex {
+  rectangle "Titre\nMes tournois" as IndexTitle
+  rectangle "Bouton\nCreer un tournoi" as IndexButton
+  rectangle "Tableau des tournois\nNom | Mode | Date | Joueurs | Statut | Detail" as IndexTable
+}
+
+rectangle "Page 2 : Creation d'un tournoi" as PageCreate {
+  rectangle "Formulaire\nNom du tournoi\nDate\nNombre de terrains\nDuree d'un tour\nMode : 2 vs 2 ou equipe" as CreateForm
+  rectangle "Boutons\nCreer le tournoi | Annuler" as CreateButtons
+}
+
+rectangle "Page 3 : Detail d'un tournoi" as PageShow {
+  rectangle "Infos du tournoi\nNom | Mode | Date | Statut" as ShowHeader
+  rectangle "Actions\nParametres | Joueurs | Points | Fin du tournoi" as ShowActions
+  rectangle "Cartes statistiques\nTerrains | Duree | Joueurs inscrits" as ShowStats
+  rectangle "Generation du tour\nBouton : Generer le prochain tour" as ShowGeneration
+  rectangle "Programme du tour\nTerrain 1 : Equipe 1 vs Equipe 2\nTerrain 2 : Equipe 1 vs Equipe 2" as ShowMatches
+  rectangle "Zones laterales\nChronometre | Tours | Mini classement" as ShowSide
+}
+
+Header --> PageIndex
+PageIndex --> PageCreate : creer
+PageIndex --> PageShow : detail
+PageCreate --> PageShow : tournoi cree
+PageShow --> PageShow : generer un tour
+
+note right of PageShow
+  Ecran principal pendant le tournoi :
+  l'organisateur voit les infos,
+  genere les tours et suit les matchs.
+end note
+
+@enduml
