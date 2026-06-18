@@ -4,7 +4,7 @@
     <section class="card">
         <div style="display:flex; align-items:start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
             <div>
-                <h1 style="margin-bottom:.4rem;">{{ ($isTeamPoints ?? false) ? 'Points des equipes' : 'Points individuels' }}</h1>
+                <h1 style="margin-bottom:.4rem;">{{ ($isTeamPoints ?? false) ? 'Points des équipes' : 'Points individuels' }}</h1>
                 <p style="margin:0;">{{ $tournament->name }} | Chaque score saisi sur un match alimente les points, victoires et défaites.</p>
             </div>
             <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Retour au tournoi</a>
@@ -13,14 +13,14 @@
 
     <section class="card" style="margin-top:1rem;">
         @if ($isTeamPoints ?? false)
-            <p class="muted" style="margin-top:0; margin-bottom:.75rem;">Les points sont regroupes par equipe pour eviter de compter plusieurs fois les joueurs d'une meme equipe.</p>
+            <p class="muted" style="margin-top:0; margin-bottom:.75rem;">Les points sont regroupés par équipe pour éviter de compter plusieurs fois les joueurs d'une même équipe.</p>
         @else
             <p class="muted" style="margin-top:0; margin-bottom:.75rem;">Clique sur une ligne joueur pour modifier ses points manuellement.</p>
         @endif
         <table class="table points-table">
             <thead>
                 <tr>
-                    <th>{{ ($isTeamPoints ?? false) ? 'Equipe' : 'Joueur' }}</th>
+                    <th>{{ ($isTeamPoints ?? false) ? 'Équipe' : 'Joueur' }}</th>
                     <th>Points</th>
                     <th><span class="points-label-full">Victoires</span><span class="points-label-short">V</span></th>
                     <th><span class="points-label-full">Défaites</span><span class="points-label-short">D</span></th>
@@ -62,7 +62,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5">{{ ($isTeamPoints ?? false) ? 'Aucune equipe pour le moment.' : 'Aucun joueur pour le moment.' }}</td>
+                        <td colspan="5">{{ ($isTeamPoints ?? false) ? 'Aucune équipe pour le moment.' : 'Aucun joueur pour le moment.' }}</td>
                     </tr>
                 @endforelse
             </tbody>

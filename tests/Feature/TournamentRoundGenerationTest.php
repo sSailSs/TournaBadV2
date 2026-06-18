@@ -35,7 +35,7 @@ class TournamentRoundGenerationTest extends TestCase
 
         $response->assertUnprocessable()
             ->assertJsonValidationErrors(['players'])
-            ->assertJsonPath('errors.players.0', 'Renseigne au moins 4 joueurs pour generer un tour.');
+            ->assertJsonPath('errors.players.0', 'Renseigne au moins 4 joueurs pour générer un tour.');
 
         $this->assertDatabaseMissing('rounds', [
             'tournament_id' => $tournament->id,
@@ -63,7 +63,7 @@ class TournamentRoundGenerationTest extends TestCase
 
         $response->assertUnprocessable()
             ->assertJsonValidationErrors(['players'])
-            ->assertJsonPath('errors.players.0', 'Renseigne au moins 4 joueurs pour generer un tour.');
+            ->assertJsonPath('errors.players.0', 'Renseigne au moins 4 joueurs pour générer un tour.');
 
         $this->assertDatabaseMissing('rounds', [
             'tournament_id' => $tournament->id,
@@ -112,7 +112,7 @@ class TournamentRoundGenerationTest extends TestCase
 
         $response->assertUnprocessable()
             ->assertJsonValidationErrors(['teams'])
-            ->assertJsonPath('errors.teams.0', 'Renseigne au moins 2 equipes completes avec 2 joueurs minimum par equipe.');
+            ->assertJsonPath('errors.teams.0', 'Renseigne au moins 2 équipes complètes avec 2 joueurs minimum par équipe.');
 
         $this->assertDatabaseMissing('rounds', [
             'tournament_id' => $tournament->id,

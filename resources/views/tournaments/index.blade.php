@@ -5,9 +5,9 @@
         <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
             <div>
                 <h1 style="margin-bottom:.4rem;">Mes tournois</h1>
-                <p style="margin:0;">Commence ici, puis ouvre le detail pour gerer les joueurs.</p>
+                <p style="margin:0;">Commence ici, puis ouvre le détail pour gérer les joueurs.</p>
             </div>
-            <a class="btn btn-primary" href="{{ route('tournaments.create') }}">Creer un tournoi</a>
+            <a class="btn btn-primary" href="{{ route('tournaments.create') }}">Créer un tournoi</a>
         </div>
 
         @if ($tournaments->isEmpty())
@@ -20,7 +20,7 @@
                         <th>Mode</th>
                         <th>Date</th>
                         <th>Terrains</th>
-                        <th>Duree / tour</th>
+                        <th>Durée / tour</th>
                         <th>Joueurs</th>
                         <th>Statut</th>
                         <th>Actions</th>
@@ -37,7 +37,7 @@
                             <td>{{ $tournament->players_count }}</td>
                             <td>{{ ucfirst($tournament->status) }}</td>
                             <td>
-                                <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Detail</a>
+                                <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Détail</a>
                             </td>
                         </tr>
                     @endforeach

@@ -7,7 +7,7 @@ window.TournamentMatches = (() => {
         createManager: function(container, matchScoreRoute, csrfToken) {
             const renderMatches = (round) => {
                 if (!round) {
-                    container.innerHTML = '<p class="muted">Aucun tour genere pour le moment.</p>';
+                    container.innerHTML = '<p class="muted">Aucun tour généré pour le moment.</p>';
                     return;
                 }
 
@@ -60,7 +60,7 @@ window.TournamentMatches = (() => {
                             </article>
                         `;
                     }).join('')
-                    : '<p class="muted">Aucun match genere.</p>';
+                    : '<p class="muted">Aucun match généré.</p>';
 
                 const waitingHtml = round.waiting.length
                     ? round.waiting.map((player) => {

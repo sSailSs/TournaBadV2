@@ -25,7 +25,7 @@
                         <p style="margin:.35rem 0 0; font-weight:700;">{{ $player->wins ?? 0 }} victoire(s)</p>
                     @else
                         <h2 style="opacity:.35;">-</h2>
-                        <p class="muted" style="margin:.25rem 0 0;">{{ ($isTeamPoints ?? false) ? 'Aucune equipe' : 'Aucun joueur' }}</p>
+                        <p class="muted" style="margin:.25rem 0 0;">{{ ($isTeamPoints ?? false) ? 'Aucune équipe' : 'Aucun joueur' }}</p>
                     @endif
                 </article>
             @endforeach
@@ -49,7 +49,7 @@
                     </li>
                 @empty
                     <li class="final-list-item">
-                        <span class="muted">{{ ($isTeamPoints ?? false) ? 'Aucune autre equipe a classer.' : 'Aucun autre joueur a classer.' }}</span>
+                        <span class="muted">{{ ($isTeamPoints ?? false) ? 'Aucune autre équipe à classer.' : 'Aucun autre joueur à classer.' }}</span>
                     </li>
                 @endforelse
             </ol>
@@ -57,9 +57,16 @@
 
         <article class="card">
             <h3 style="margin-bottom:.35rem;">Résumé</h3>
-            <p><strong>{{ $players->count() }}</strong> {{ ($isTeamPoints ?? false) ? 'equipe(s) classee(s)' : 'joueur(s) classe(s)' }}</p>
-            <p><strong>{{ $players->sum('points') }}</strong> points cumulés</p>
-            <p><strong>{{ $players->first()->points ?? 0 }}</strong> points pour le leader</p>
+            <div class="final-summary-grid">
+                <p><strong>{{ $summary['ranked_count'] }}</strong> {{ ($isTeamPoints ?? false) ? 'équipe(s) classée(s)' : 'joueur(s) classé(s)' }}</p>
+                <p><strong>{{ $summary['rounds_count'] }}</strong> tour(s) joué(s)</p>
+                <p><strong>{{ $summary['matches_count'] }}</strong> match(s) joué(s)</p>
+                <p><strong>{{ $summary['total_points'] }}</strong> points cumulés</p>
+                <p><strong>{{ $summary['leader_points'] }}</strong> points pour le leader</p>
+                <p><strong>{{ $summary['courts_count'] }}</strong> terrain(s) utilisé(s)</p>
+                <p><strong>{{ $summary['waiting_count'] }}</strong> attente(s)</p>
+                <p><strong>{{ $summary['best_match_score'] ?? 0 }}</strong> meilleur score sur un match</p>
+            </div>
             <div style="margin-top:1rem; display:flex; gap:.7rem; flex-wrap:wrap;">
                 <a class="btn btn-outline" href="{{ route('tournaments.points', $tournament) }}">Voir les points</a>
                 <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Retour au tournoi</a>

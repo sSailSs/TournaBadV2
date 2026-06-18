@@ -9,7 +9,7 @@
             <form method="POST" action="{{ route('tournaments.players.store', $tournament) }}">
                 @csrf
 
-                <label for="first_name">Prenom</label>
+                <label for="first_name">Prénom</label>
                 <input id="first_name" type="text" name="first_name" value="{{ old('first_name') }}" required>
 
                 <button class="btn btn-primary" style="margin-top:1rem;" type="submit">Ajouter le joueur</button>
@@ -19,10 +19,10 @@
         <article class="card">
             <h2>Conseil organisation</h2>
             <p>
-                Pour l'etape actuelle, gere la liste des joueurs ici, au niveau du tournoi.
-                Ensuite, quand tu ajoutes les matchs/tours, tu reutiliseras cette liste pour composer les equipes.
+                Pour l'étape actuelle, gère la liste des joueurs ici, au niveau du tournoi.
+                Ensuite, quand tu ajoutes les matchs/tours, tu réutiliseras cette liste pour composer les équipes.
             </p>
-            <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Retour detail tournoi</a>
+            <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Retour détail tournoi</a>
         </article>
     </section>
 
@@ -30,7 +30,7 @@
         <h2>Liste des joueurs</h2>
 
         @if ($players->isEmpty())
-            <p>Aucun joueur ajoute pour le moment.</p>
+            <p>Aucun joueur ajouté pour le moment.</p>
         @else
             <table class="table">
                 <thead>

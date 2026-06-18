@@ -15,7 +15,7 @@
     const timerRoundId = timerCard?.dataset.roundId || null;
     const timerDuration = Number(timerCard?.dataset.roundDuration || 0);
     const timerAudioUrl = timerCard?.dataset.audioUrl || '';
-    const timerAudioLabel = timerCard?.dataset.audioLabel || 'Aucun son selectionne';
+    const timerAudioLabel = timerCard?.dataset.audioLabel || 'Aucun son sélectionné';
 
     const tournamentShowRoute = timerCard?.dataset.tournamentShowRoute || '';
     const matchScoreRoute = timerCard?.dataset.matchScoreRoute || '';

@@ -70,7 +70,7 @@ class TournamentController extends Controller
 
         if ((int) $validated['round_duration_minutes'] === 0 && (int) $validated['round_duration_seconds'] === 0) {
             throw ValidationException::withMessages([
-                'round_duration_seconds' => 'La duree du tour doit etre superieure a zero.',
+                'round_duration_seconds' => 'La durée du tour doit être supérieure à zéro.',
             ]);
         }
 
@@ -121,7 +121,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route($redirectRoute, $tournament)
-            ->with('status', 'Tournoi cree avec succes.');
+            ->with('status', 'Tournoi créé avec succès.');
     }
 
     public function destroy(Request $request, Tournament $tournament): RedirectResponse
@@ -277,10 +277,32 @@ class TournamentController extends Controller
             ])
             ->values();
 
+        $matches = $tournament->matches()
+            ->with('score')
+            ->get();
+        $scoredMatches = $matches->filter(fn (TournamentMatch $match): bool => $match->score !== null);
+        $playedRoundsCount = $scoredMatches
+            ->pluck('round_id')
+            ->unique()
+            ->count();
+        $bestMatchScore = $scoredMatches
+            ->map(fn (TournamentMatch $match): int => max((int) $match->score->team_one_score, (int) $match->score->team_two_score))
+            ->max();
+
         return view('tournaments.final', [
             'tournament' => $tournament,
             'players' => $players,
             'isTeamPoints' => $isTeamPoints,
+            'summary' => [
+                'ranked_count' => $players->count(),
+                'total_points' => $players->sum('points'),
+                'leader_points' => $players->first()->points ?? 0,
+                'rounds_count' => $playedRoundsCount,
+                'matches_count' => $scoredMatches->count(),
+                'courts_count' => $matches->pluck('court_number')->unique()->count(),
+                'waiting_count' => $players->sum('waiting_count'),
+                'best_match_score' => $bestMatchScore,
+            ],
         ]);
     }
 
@@ -302,7 +324,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route('tournaments.show', $tournament)
-            ->with('status', 'Tour remis a zero.');
+            ->with('status', 'Tour remis à zéro.');
     }
 
     public function updateSettings(Request $request, Tournament $tournament): RedirectResponse
@@ -324,7 +346,7 @@ class TournamentController extends Controller
 
         if ((int) $validated['round_duration_minutes'] === 0 && (int) $validated['round_duration_seconds'] === 0) {
             throw ValidationException::withMessages([
-                'round_duration_seconds' => 'La duree du tour doit etre superieure a zero.',
+                'round_duration_seconds' => 'La durée du tour doit être supérieure à zéro.',
             ]);
         }
 
@@ -367,7 +389,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route('tournaments.show', $tournament)
-            ->with('status', 'Parametres du tournoi mis a jour.');
+            ->with('status', 'Paramètres du tournoi mis à jour.');
     }
 
     public function generateRound(Request $request, Tournament $tournament, RoundGenerator $roundGenerator): JsonResponse|RedirectResponse
@@ -388,14 +410,14 @@ class TournamentController extends Controller
 
         if ($request->expectsJson()) {
             return response()->json([
-                'message' => 'Tour genere avec succes.',
+                'message' => 'Tour généré avec succès.',
                 'round' => $payload,
             ]);
         }
 
         return redirect()
             ->route('tournaments.show', $tournament)
-            ->with('status', 'Tour genere avec succes.');
+            ->with('status', 'Tour généré avec succès.');
     }
 
     private function ensureTournamentCanGenerateRound(Tournament $tournament): void
@@ -409,7 +431,7 @@ class TournamentController extends Controller
 
             if ($completeTeamsCount < 2) {
                 throw ValidationException::withMessages([
-                    'teams' => 'Renseigne au moins 2 equipes completes avec 2 joueurs minimum par equipe.',
+                    'teams' => 'Renseigne au moins 2 équipes complètes avec 2 joueurs minimum par équipe.',
                 ]);
             }
 
@@ -424,7 +446,7 @@ class TournamentController extends Controller
 
         if ($activePlayersCount < $minimumPlayers) {
             throw ValidationException::withMessages([
-                'players' => sprintf('Renseigne au moins %d joueurs pour generer un tour.', $minimumPlayers),
+                'players' => sprintf('Renseigne au moins %d joueurs pour générer un tour.', $minimumPlayers),
             ]);
         }
     }
@@ -515,14 +537,14 @@ class TournamentController extends Controller
 
         if ($request->expectsJson()) {
             return response()->json([
-                'message' => 'Score enregistre avec succes.',
+                'message' => 'Score enregistré avec succès.',
                 'round' => $payload,
             ]);
         }
 
         return redirect()
             ->route('tournaments.show', $tournament)
-            ->with('status', 'Score enregistre avec succes.');
+            ->with('status', 'Score enregistré avec succès.');
     }
 
     public function players(Request $request, Tournament $tournament): View
@@ -556,7 +578,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route('tournaments.players', $tournament)
-            ->with('status', 'Joueur ajoute.');
+            ->with('status', 'Joueur ajouté.');
     }
 
     public function teams(Request $request, Tournament $tournament): View
@@ -608,7 +630,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route('tournaments.teams', $tournament)
-            ->with('status', 'Equipe ajoutee.');
+            ->with('status', 'Équipe ajoutée.');
     }
 
     public function updateTeamDisplay(Request $request, Tournament $tournament): RedirectResponse
@@ -629,7 +651,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route('tournaments.teams', $tournament)
-            ->with('status', 'Affichage des equipes mis a jour.');
+            ->with('status', 'Affichage des équipes mis à jour.');
     }
 
     public function updateTeam(Request $request, Tournament $tournament, TournamentTeam $team): RedirectResponse
@@ -651,7 +673,7 @@ class TournamentController extends Controller
 
         DB::transaction(function () use ($request, $team, $teamLabel, $playerNames): void {
             $team->update([
-                'name' => implode(' / ', $playerNames) ?: 'Equipe incomplete',
+                'name' => implode(' / ', $playerNames) ?: 'Équipe incomplète',
                 'team_label' => $teamLabel ?: null,
             ]);
 
@@ -660,7 +682,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route('tournaments.teams', $tournament)
-            ->with('status', 'Equipe mise a jour.');
+            ->with('status', 'Équipe mise à jour.');
     }
 
     public function removeTeam(Request $request, Tournament $tournament, TournamentTeam $team): RedirectResponse
@@ -682,7 +704,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route('tournaments.teams', $tournament)
-            ->with('status', 'Equipe retiree.');
+            ->with('status', 'Équipe retirée.');
     }
 
     public function updatePlayerPoints(Request $request, Tournament $tournament, Player $player): RedirectResponse
@@ -706,7 +728,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route('tournaments.points', $tournament)
-            ->with('status', 'Points du joueur mis a jour.');
+            ->with('status', 'Points du joueur mis à jour.');
     }
 
     public function removePlayer(Request $request, Tournament $tournament, Player $player): RedirectResponse
@@ -721,7 +743,7 @@ class TournamentController extends Controller
 
         return redirect()
             ->route('tournaments.players', $tournament)
-            ->with('status', 'Joueur retire.');
+            ->with('status', 'Joueur retiré.');
     }
 
     private function userTournament(Request $request, Tournament $tournament): Tournament
@@ -747,13 +769,13 @@ class TournamentController extends Controller
 
         if ($filledNames->count() < $minimumPlayers) {
             throw ValidationException::withMessages([
-                'player_names' => sprintf('Renseigne au moins %d joueur%s dans l equipe.', $minimumPlayers, $minimumPlayers > 1 ? 's' : ''),
+                'player_names' => sprintf('Renseigne au moins %d joueur%s dans l équipe.', $minimumPlayers, $minimumPlayers > 1 ? 's' : ''),
             ]);
         }
 
         if ($filledNames->map(fn (string $name) => mb_strtolower($name))->unique()->count() !== $filledNames->count()) {
             throw ValidationException::withMessages([
-                'player_names' => 'Les joueurs d une meme equipe doivent etre differents.',
+                'player_names' => 'Les joueurs d’une même équipe doivent être différents.',
             ]);
         }
 
@@ -801,7 +823,7 @@ class TournamentController extends Controller
         $playerIds = array_keys($syncData);
 
         $team->update([
-            'name' => implode(' / ', $playerNames) ?: 'Equipe incomplete',
+            'name' => implode(' / ', $playerNames) ?: 'Équipe incomplète',
             'player_one_id' => $playerIds[0] ?? null,
             'player_two_id' => $playerIds[1] ?? null,
             'player_three_id' => $playerIds[2] ?? null,
@@ -960,7 +982,7 @@ class TournamentController extends Controller
             'round_duration_seconds' => $this->tournamentDurationSeconds($tournament),
             'audio_path' => $audioOption['path'] ?? null,
             'audio_url' => $audioOption['url'] ?? null,
-            'audio_label' => $audioOption['label'] ?? 'Aucun son selectionne',
+            'audio_label' => $audioOption['label'] ?? 'Aucun son sélectionné',
         ];
     }
 

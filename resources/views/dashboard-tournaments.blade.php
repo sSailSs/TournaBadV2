@@ -12,9 +12,9 @@
             <div style="display:flex; align-items:start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
                 <div>
                     <h1 style="margin-bottom:.35rem;">Tournois</h1>
-                    <p style="margin:0;">Tous tes tournois crees, en cours ou deja faits.</p>
+                    <p style="margin:0;">Tous tes tournois créés, en cours ou déjà faits.</p>
                 </div>
-                <a class="btn btn-primary" href="{{ route('tournaments.create') }}">Creer un tournoi</a>
+                <a class="btn btn-primary" href="{{ route('tournaments.create') }}">Créer un tournoi</a>
             </div>
         </section>
 
@@ -54,7 +54,7 @@
                             <th>Date</th>
                             <th>Terrains</th>
                             <th>Joueurs</th>
-                            <th>Etat</th>
+                            <th>État</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

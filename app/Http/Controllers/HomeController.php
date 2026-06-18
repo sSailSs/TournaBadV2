@@ -124,7 +124,7 @@ class HomeController extends Controller
 
         return redirect()
             ->route('dashboard')
-            ->with('status', 'Profil mis a jour.');
+            ->with('status', 'Profil mis à jour.');
     }
 
     public function updatePassword(Request $request): RedirectResponse
@@ -142,7 +142,7 @@ class HomeController extends Controller
 
         return redirect()
             ->route('dashboard')
-            ->with('status', 'Mot de passe mis a jour.');
+            ->with('status', 'Mot de passe mis à jour.');
     }
 
     public function legalNotices(): View

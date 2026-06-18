@@ -5,13 +5,13 @@
         <div class="tournament-header-main" style="display:flex; align-items:start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
             <div>
                 <h1 style="margin-bottom:.4rem;">{{ $tournament->name }}</h1>
-                <p style="margin:0;">Mode: {{ $tournament->format === 'double' ? '2 vs 2' : ($tournament->format === 'team' ? 'En equipe' : ucfirst($tournament->format)) }} | Date: {{ $tournament->starts_on?->format('d/m/Y') }} | Statut: {{ ucfirst($tournament->status) }}</p>
+                <p style="margin:0;">Mode: {{ $tournament->format === 'double' ? '2 vs 2' : ($tournament->format === 'team' ? 'En équipe' : ucfirst($tournament->format)) }} | Date: {{ $tournament->starts_on?->format('d/m/Y') }} | Statut: {{ ucfirst($tournament->status) }}</p>
             </div>
             <div class="tournament-actions">
                 <div class="tournament-actions-desktop">
-                    <a class="btn btn-outline" href="{{ route('tournaments.settings', $tournament) }}">Parametres</a>
+                    <a class="btn btn-outline" href="{{ route('tournaments.settings', $tournament) }}">Paramètres</a>
                     @if ($tournament->format === 'team' && $tournament->team_assignment_mode === 'predefined')
-                        <a class="btn btn-outline" href="{{ route('tournaments.teams', $tournament) }}">Equipes</a>
+                        <a class="btn btn-outline" href="{{ route('tournaments.teams', $tournament) }}">Équipes</a>
                     @else
                         <a class="btn btn-outline" href="{{ route('tournaments.players', $tournament) }}">Joueurs</a>
                     @endif
@@ -29,9 +29,9 @@
                     </button>
 
                     <div class="tournament-actions-menu" data-tournament-menu>
-                        <a class="btn btn-outline" href="{{ route('tournaments.settings', $tournament) }}">Parametres</a>
+                        <a class="btn btn-outline" href="{{ route('tournaments.settings', $tournament) }}">Paramètres</a>
                         @if ($tournament->format === 'team' && $tournament->team_assignment_mode === 'predefined')
-                            <a class="btn btn-outline" href="{{ route('tournaments.teams', $tournament) }}">Equipes</a>
+                            <a class="btn btn-outline" href="{{ route('tournaments.teams', $tournament) }}">Équipes</a>
                         @else
                             <a class="btn btn-outline" href="{{ route('tournaments.players', $tournament) }}">Joueurs</a>
                         @endif
@@ -43,7 +43,7 @@
         </div>
     </section>
 
-    <section class="timer-floating" aria-label="Chronometre du tour">
+    <section class="timer-floating" aria-label="Chronomètre du tour">
         <section class="card timer-card" data-timer-card
             data-round-id="{{ $timerData['round_id'] ?? '' }}"
             data-audio-url="{{ $timerData['audio_url'] ?? '' }}"
@@ -63,9 +63,9 @@
             </div>
 
             <div class="timer-actions">
-                <button class="btn btn-primary timer-icon-btn" type="button" data-timer-start {{ $timerData['round_id'] ? '' : 'disabled' }} aria-label="Demarrer le chrono">
+                <button class="btn btn-primary timer-icon-btn" type="button" data-timer-start {{ $timerData['round_id'] ? '' : 'disabled' }} aria-label="Démarrer le chrono">
                     <span aria-hidden="true">▶</span>
-                    <span class="sr-only">Demarrer</span>
+                    <span class="sr-only">Démarrer</span>
                 </button>
                 <button class="btn btn-outline timer-icon-btn" type="button" data-timer-pause disabled aria-label="Mettre le chrono en pause">
                     <span aria-hidden="true">⏸</span>
@@ -79,11 +79,11 @@
                     <span aria-hidden="true">🔊</span>
                     <span class="sr-only">Son</span>
                 </button>
-                <span class="timer-audio-name muted" data-timer-audio-name>{{ $timerData['audio_label'] ?? 'Aucun son selectionne' }}</span>
+                <span class="timer-audio-name muted" data-timer-audio-name>{{ $timerData['audio_label'] ?? 'Aucun son sélectionné' }}</span>
             </div>
 
             <div class="timer-end-alert" data-timer-alert hidden>
-                Temps ecoule. Fin du tour.
+                Temps écoulé. Fin du tour.
             </div>
         </section>
     </section>
@@ -101,7 +101,7 @@
         </article>
 
         <article class="card">
-            <h3>Duree d'un tour</h3>
+            <h3>Durée d'un tour</h3>
             <p><strong>{{ $roundDurationLabel }}</strong></p>
         </article>
 
@@ -113,19 +113,19 @@
 
     @if ($tournament->format === 'team')
         <section class="card tournament-team-config" style="margin-top:1rem;">
-            <h2 style="margin-bottom:.35rem;">Configuration des equipes</h2>
+            <h2 style="margin-bottom:.35rem;">Configuration des équipes</h2>
             @if ($tournament->team_assignment_mode === 'random')
-                <p style="margin:0;">Composition aleatoire avec <strong>{{ $tournament->team_size }}</strong> personne(s) par equipe.</p>
+                <p style="margin:0;">Composition aléatoire avec <strong>{{ $tournament->team_size }}</strong> personne(s) par équipe.</p>
             @else
-                <p style="margin-top:0;">Equipes predefinies pour ce tournoi.</p>
+                <p style="margin-top:0;">Équipes prédéfinies pour ce tournoi.</p>
                 <div class="list">
                     @forelse ($tournament->teams()->orderBy('position')->get() as $team)
                         <span class="tag">{{ $team->team_label ?: $team->name }}</span>
                     @empty
-                        <span class="tag">Aucune equipe ajoutee</span>
+                        <span class="tag">Aucune équipe ajoutée</span>
                     @endforelse
                 </div>
-                <a class="btn btn-outline" style="margin-top:1rem;" href="{{ route('tournaments.teams', $tournament) }}">Gerer les equipes</a>
+                <a class="btn btn-outline" style="margin-top:1rem;" href="{{ route('tournaments.teams', $tournament) }}">Gérer les équipes</a>
             @endif
         </section>
     @endif
@@ -133,8 +133,8 @@
     <section class="card" style="margin-top:1rem;">
         <div style="display:flex; align-items:start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
             <div>
-                <h2 style="margin-bottom:.35rem;">Generation du tour</h2>
-                <p style="margin:0;">Le programme repartit automatiquement les joueurs sur les terrains et met le reste en attente.</p>
+                <h2 style="margin-bottom:.35rem;">Génération du tour</h2>
+                <p style="margin:0;">Le programme répartit automatiquement les joueurs sur les terrains et met le reste en attente.</p>
             </div>
 
             <div style="display:flex; gap:.8rem; align-items:center; justify-content:flex-end; flex-wrap:wrap; margin-left:auto;">
@@ -146,7 +146,7 @@
 
                 <form id="generateRoundForm" method="POST" action="{{ route('tournaments.rounds.generate', $tournament) }}" style="display:flex; gap:.8rem; align-items:center; flex-wrap:wrap;">
                     @csrf
-                    <button class="btn btn-primary" type="submit">Generer le prochain tour</button>
+                    <button class="btn btn-primary" type="submit">Générer le prochain tour</button>
                 </form>
             </div>
         </div>
@@ -161,7 +161,7 @@
             <div class="card" style="width:min(480px, 100%);">
                 <h3 style="margin-top:0; margin-bottom:.4rem;">Supprimer le tour {{ $currentRound->round_number }} ?</h3>
                 <p class="muted" style="margin:0 0 1rem;">
-                    Etes-vous sur ? Les matchs, les attentes et les scores de ce tour seront supprimes.
+                    Êtes-vous sûr ? Les matchs, les attentes et les scores de ce tour seront supprimés.
                 </p>
 
                 <div style="display:flex; justify-content:flex-end; gap:.65rem; flex-wrap:wrap;">
@@ -184,12 +184,12 @@
         <div class="card" style="width:min(520px, 100%);">
             <h3 style="margin-top:0; margin-bottom:.4rem;">Finir le tournoi ?</h3>
             <p class="muted" style="margin:0 0 1rem;">
-                Souhaitez-vous finir le tournoi ? Les resultats seront affiches avec un historique. Vous pourrez toujours reprendre le tournoi par la suite.
+                Souhaitez-vous finir le tournoi ? Les résultats seront affichés avec un historique. Vous pourrez toujours reprendre le tournoi par la suite.
             </p>
 
             <div style="display:flex; justify-content:flex-end; gap:.65rem; flex-wrap:wrap;">
                 <button class="btn btn-outline" type="button" data-final-close>Annuler</button>
-                <a class="btn btn-primary" href="{{ route('tournaments.final', $tournament) }}">Voir les resultats</a>
+                <a class="btn btn-primary" href="{{ route('tournaments.final', $tournament) }}">Voir les résultats</a>
             </div>
         </div>
     </div>
@@ -201,7 +201,7 @@
     <aside class="mini-ranking-floating" aria-label="Mini classement">
         <section class="card">
             <h3 style="margin-bottom:.45rem;">Mini classement</h3>
-            <p class="muted" style="margin-top:0; margin-bottom:.7rem;">{{ $tournament->format === 'team' && $tournament->team_assignment_mode === 'predefined' ? 'Top equipes du tournoi' : 'Top joueurs du tournoi' }}</p>
+            <p class="muted" style="margin-top:0; margin-bottom:.7rem;">{{ $tournament->format === 'team' && $tournament->team_assignment_mode === 'predefined' ? 'Top équipes du tournoi' : 'Top joueurs du tournoi' }}</p>
 
             <ol class="mini-ranking-list">
                 @forelse ($leaderboardPlayers as $player)

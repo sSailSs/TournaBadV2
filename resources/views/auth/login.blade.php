@@ -3,7 +3,7 @@
 @section('content')
     <div class="card" style="max-width: 480px; margin: 0 auto;">
         <h1>Connexion</h1>
-        <p>Accede a ton espace TournaBad.</p>
+        <p>Accède à ton espace TournaBad.</p>
 
         <form method="POST" action="{{ route('login.attempt') }}">
             @csrf
@@ -23,7 +23,7 @@
         </form>
 
         <a class="btn btn-outline" style="margin-top: .75rem; width: 100%;" href="{{ route('register') }}">
-            Pas de compte ? Creer en un
+            Pas de compte ? Créer en un
         </a>
     </div>
 @endsection

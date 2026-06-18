@@ -1033,6 +1033,22 @@
             color: var(--ink);
         }
 
+        .final-summary-grid {
+            display: grid;
+            gap: 0.55rem;
+            margin-top: 0.85rem;
+        }
+
+        .final-summary-grid p {
+            margin: 0;
+            padding: 0.55rem 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .final-summary-grid p:last-child {
+            border-bottom: 0;
+        }
+
         @media (max-width: 768px) {
             .final-podium {
                 grid-template-columns: 1fr;
@@ -1236,17 +1252,17 @@
                 <a class="btn btn-outline" href="{{ route('dashboard') }}">Compte</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button class="btn btn-primary" type="submit">Deconnexion</button>
+                    <button class="btn btn-primary" type="submit">Déconnexion</button>
                 </form>
-                <button class="btn theme-toggle btn-icon" type="button" id="themeToggle" aria-label="Basculer le theme" title="Basculer le theme">
+                <button class="btn theme-toggle btn-icon" type="button" id="themeToggle" aria-label="Basculer le thème" title="Basculer le thème">
                     <span class="theme-toggle-icon" data-theme-icon="moon" aria-hidden="true">🌙</span>
                     <span class="theme-toggle-icon" data-theme-icon="sun" aria-hidden="true" hidden>☀</span>
                     <span class="sr-only" data-theme-label>Mode sombre</span>
                 </button>
             @else
                 <a class="btn btn-outline" href="{{ route('login') }}">Connexion</a>
-                <a class="btn btn-primary" href="{{ route('register') }}">Creer un compte</a>
-                <button class="btn theme-toggle btn-icon" type="button" id="themeToggle" aria-label="Basculer le theme" title="Basculer le theme">
+                <a class="btn btn-primary" href="{{ route('register') }}">Créer un compte</a>
+                <button class="btn theme-toggle btn-icon" type="button" id="themeToggle" aria-label="Basculer le thème" title="Basculer le thème">
                     <span class="theme-toggle-icon" data-theme-icon="moon" aria-hidden="true">🌙</span>
                     <span class="theme-toggle-icon" data-theme-icon="sun" aria-hidden="true" hidden>☀</span>
                     <span class="sr-only" data-theme-label>Mode sombre</span>
@@ -1274,12 +1290,12 @@
     <div class="container site-footer-inner">
         <div>
             <strong>TournaBad</strong>
-            <span> - {{ date('Y') }} - Tous droits reserves.</span>
+            <span> - {{ date('Y') }} - Tous droits réservés.</span>
         </div>
         <div class="site-footer-links">
-            <a href="{{ route('legal.notices') }}">Mentions legales</a>
+            <a href="{{ route('legal.notices') }}">Mentions légales</a>
             <span aria-hidden="true">|</span>
-            <a href="{{ route('legal.privacy') }}">Confidentialite</a>
+            <a href="{{ route('legal.privacy') }}">Confidentialité</a>
         </div>
     </div>
 </footer>

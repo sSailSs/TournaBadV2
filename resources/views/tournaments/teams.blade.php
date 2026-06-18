@@ -3,13 +3,13 @@
 @section('content')
     <section class="grid grid-2">
         <article class="card">
-            <h1>Gestion des equipes</h1>
+            <h1>Gestion des équipes</h1>
             <p>{{ $tournament->name }}</p>
 
             <form method="POST" action="{{ route('tournaments.teams.store', $tournament) }}" data-team-form>
                 @csrf
 
-                <label for="team_label">Nom d'equipe optionnel</label>
+                <label for="team_label">Nom d'équipe optionnel</label>
                 <input id="team_label" type="text" name="team_label" value="{{ old('team_label') }}" placeholder="Ex: Les Smashers">
 
                 <div data-player-list style="display:grid; gap:.65rem; margin-top:.75rem;">
@@ -20,7 +20,7 @@
 
                 <div style="display:flex; gap:.65rem; flex-wrap:wrap; margin-top:1rem;">
                     <button class="btn btn-outline" type="button" data-add-player>Ajouter joueur</button>
-                    <button class="btn btn-primary" type="submit">Ajouter l'equipe</button>
+                    <button class="btn btn-primary" type="submit">Ajouter l'équipe</button>
                 </div>
             </form>
         </article>
@@ -28,24 +28,24 @@
         <article class="card">
             <h2>Principe</h2>
             <p>
-                Chaque equipe peut contenir autant de joueurs que necessaire. A chaque tour, deux joueurs sont tires dans chaque equipe pour jouer le match.
-                Si une equipe a moins de deux joueurs, elle est ignoree jusqu'a ce que tu la completes.
+                Chaque équipe peut contenir autant de joueurs que nécessaire. À chaque tour, deux joueurs sont tirés dans chaque équipe pour jouer le match.
+                Si une équipe a moins de deux joueurs, elle est ignorée jusqu'à ce que tu la complètes.
             </p>
-            <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Retour detail tournoi</a>
+            <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Retour détail tournoi</a>
         </article>
     </section>
 
     <section style="margin-top:1rem;">
         <div class="section-title">
             <div>
-                <h2 style="margin-bottom:.35rem;">Liste des equipes</h2>
-                <p class="muted" style="margin:0;">Nom d'equipe, joueurs presents et actions rapides.</p>
+                <h2 style="margin-bottom:.35rem;">Liste des équipes</h2>
+                <p class="muted" style="margin:0;">Nom d'équipe, joueurs présents et actions rapides.</p>
             </div>
         </div>
 
         @if ($teams->isEmpty())
             <section class="card">
-                <p>Aucune equipe ajoutee pour le moment.</p>
+                <p>Aucune équipe ajoutée pour le moment.</p>
             </section>
         @else
             <div class="grid grid-2">
@@ -62,7 +62,7 @@
                                 <p class="muted" style="margin:.2rem 0 0;">{{ $teamPlayerNames->implode(' / ') }}</p>
                             @endif
                             @if ($teamPlayers->count() < 2)
-                                <span class="badge" style="margin-top:.5rem;">Incomplete</span>
+                                <span class="badge" style="margin-top:.5rem;">Incomplète</span>
                             @endif
                         </div>
 
@@ -70,7 +70,7 @@
                             @csrf
                             @method('PATCH')
 
-                            <input type="text" name="team_label" value="{{ old('team_label', $team->team_label) }}" placeholder="Nom d'equipe optionnel">
+                            <input type="text" name="team_label" value="{{ old('team_label', $team->team_label) }}" placeholder="Nom d'équipe optionnel">
 
                             <div data-player-list style="display:grid; gap:.55rem;">
                                 @forelse ($teamPlayers as $player)
@@ -82,12 +82,12 @@
 
                             <div style="display:flex; gap:.65rem; flex-wrap:wrap; align-items:center;">
                                 <button class="btn btn-outline" type="button" data-add-player>Ajouter joueur</button>
-                                <button class="btn btn-outline" type="submit" form="deleteTeam{{ $team->id }}" style="border-color: color-mix(in srgb, var(--danger) 45%, var(--line) 55%); color: var(--danger);">Supprimer equipe</button>
+                                <button class="btn btn-outline" type="submit" form="deleteTeam{{ $team->id }}" style="border-color: color-mix(in srgb, var(--danger) 45%, var(--line) 55%); color: var(--danger);">Supprimer équipe</button>
                                 <button class="btn btn-outline" type="submit">Enregistrer</button>
                             </div>
                         </form>
 
-                        <form id="deleteTeam{{ $team->id }}" method="POST" action="{{ route('tournaments.teams.destroy', [$tournament, $team]) }}" onsubmit="return confirm('Retirer cette equipe ? Les joueurs seront aussi retires du tournoi.');" style="display:none;">
+                        <form id="deleteTeam{{ $team->id }}" method="POST" action="{{ route('tournaments.teams.destroy', [$tournament, $team]) }}" onsubmit="return confirm('Retirer cette équipe ? Les joueurs seront aussi retirés du tournoi.');" style="display:none;">
                             @csrf
                             @method('DELETE')
                         </form>

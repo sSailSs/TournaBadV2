@@ -7,11 +7,11 @@
     @endphp
 
     <section class="card" style="max-width: 760px; margin: 0 auto;">
-        <h1>{{ $isTeamMode ? 'Creer un tournoi en equipe' : 'Creer un tournoi' }}</h1>
+        <h1>{{ $isTeamMode ? 'Créer un tournoi en équipe' : 'Créer un tournoi' }}</h1>
         <p>
             {{ $isTeamMode
-                ? 'Renseigne les informations de base, puis choisis comment preparer les equipes.'
-                : 'Renseigne les informations de base du tournoi. Le tournoi sera cree en 2v2 par defaut.' }}
+                ? 'Renseigne les informations de base, puis choisis comment préparer les équipes.'
+                : 'Renseigne les informations de base du tournoi. Le tournoi sera créé en 2v2 par défaut.' }}
         </p>
 
         <form method="POST" action="{{ route('tournaments.store') }}">
@@ -35,12 +35,12 @@
 
             <div class="grid grid-2">
                 <div>
-                    <label for="round_duration_minutes">Duree d'un tour - minutes</label>
+                    <label for="round_duration_minutes">Durée d'un tour - minutes</label>
                     <input id="round_duration_minutes" type="number" min="0" max="120" name="round_duration_minutes" value="{{ old('round_duration_minutes', 12) }}" required>
                 </div>
 
                 <div>
-                    <label for="round_duration_seconds">Duree d'un tour - secondes</label>
+                    <label for="round_duration_seconds">Durée d'un tour - secondes</label>
                     <input id="round_duration_seconds" type="number" min="0" max="59" name="round_duration_seconds" value="{{ old('round_duration_seconds', 0) }}" required>
                 </div>
             </div>
@@ -50,30 +50,30 @@
 
             @if ($isTeamMode)
                 <section class="card" style="margin-top:1rem; background: color-mix(in srgb, var(--paper-strong) 82%, transparent 18%); box-shadow:none;">
-                    <h2 style="margin-bottom:.35rem;">Equipes</h2>
-                    <p style="margin-top:0;">Choisis une composition aleatoire ou des equipes fixes. Tu ajouteras ensuite les joueurs ou les binomes depuis le tournoi.</p>
+                    <h2 style="margin-bottom:.35rem;">Équipes</h2>
+                    <p style="margin-top:0;">Choisis une composition aléatoire ou des équipes fixes. Tu ajouteras ensuite les joueurs ou les binômes depuis le tournoi.</p>
 
-                    <label for="team_assignment_mode">Composition des equipes</label>
+                    <label for="team_assignment_mode">Composition des équipes</label>
                     <select id="team_assignment_mode" name="team_assignment_mode" data-team-mode-select>
-                        <option value="random" @selected($teamMode === 'random')>Equipe aleatoire</option>
-                        <option value="predefined" @selected($teamMode === 'predefined')>Equipes predefinies</option>
+                        <option value="random" @selected($teamMode === 'random')>Équipe aléatoire</option>
+                        <option value="predefined" @selected($teamMode === 'predefined')>Équipes prédéfinies</option>
                     </select>
 
                     <div data-team-random-fields>
-                        <label for="team_size">Nombre de personnes par equipe</label>
+                        <label for="team_size">Nombre de personnes par équipe</label>
                         <input id="team_size" type="number" min="1" max="20" name="team_size" value="{{ old('team_size', 2) }}">
                     </div>
 
                     <div data-team-predefined-fields>
                         <p class="muted" style="margin-bottom:0;">
-                            Apres creation, une page Equipes te permettra d'ajouter autant de binomes que necessaire.
+                            Après création, une page Équipes te permettra d'ajouter autant de binômes que nécessaire.
                         </p>
                     </div>
                 </section>
             @endif
 
             <div style="display:flex; gap:.7rem; flex-wrap:wrap; margin-top:1rem;">
-                <button class="btn btn-primary" type="submit">Creer le tournoi</button>
+                <button class="btn btn-primary" type="submit">Créer le tournoi</button>
                 <a class="btn btn-outline" href="{{ route('tournaments.index') }}">Annuler</a>
             </div>
         </form>

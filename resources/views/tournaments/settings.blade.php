@@ -4,14 +4,14 @@
     <section class="card">
         <div style="display:flex; align-items:start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
             <div>
-                <h1 style="margin-bottom:.4rem;">Parametres</h1>
-                <p style="margin:0;">Modifier le tournoi depuis une page dediee, sans charger la page principale.</p>
+                <h1 style="margin-bottom:.4rem;">Paramètres</h1>
+                <p style="margin:0;">Modifier le tournoi depuis une page dédiée, sans charger la page principale.</p>
             </div>
 
             <div style="display:flex; gap:.7rem; flex-wrap:wrap;">
                 <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Retour au tournoi</a>
                 @if ($tournament->format === 'team' && $tournament->team_assignment_mode === 'predefined')
-                    <a class="btn btn-outline" href="{{ route('tournaments.teams', $tournament) }}">Equipes</a>
+                    <a class="btn btn-outline" href="{{ route('tournaments.teams', $tournament) }}">Équipes</a>
                 @else
                     <a class="btn btn-outline" href="{{ route('tournaments.players', $tournament) }}">Joueurs</a>
                 @endif
@@ -22,7 +22,7 @@
 
     <section class="grid grid-2" style="margin-top:1rem;">
         <article class="card">
-            <h3>Apercu</h3>
+            <h3>Aperçu</h3>
             <p><strong>{{ $tournament->players_count }}</strong> joueur(s)</p>
             <p><strong>{{ $tournament->courts_count }}</strong> terrain(s)</p>
             <p><strong>{{ $roundDurationLabel }}</strong> par tour</p>
@@ -31,8 +31,8 @@
 
         <article class="card">
             <h3>Actions rapides</h3>
-            <p class="muted">Le reset se trouve ici pour garder la page tournoi legere.</p>
-            <form method="POST" action="{{ route('tournaments.reset', $tournament) }}" onsubmit="return confirm('Reset le tournoi ? Cela supprime les tours et remet les points a zero.');" style="margin:0;">
+            <p class="muted">Le reset se trouve ici pour garder la page tournoi légère.</p>
+            <form method="POST" action="{{ route('tournaments.reset', $tournament) }}" onsubmit="return confirm('Reset le tournoi ? Cela supprime les tours et remet les points à zéro.');" style="margin:0;">
                 @csrf
                 <button class="btn btn-outline" type="submit" style="border-color: color-mix(in srgb, var(--danger) 35%, var(--line) 65%); color: var(--danger);">Reset le tournoi</button>
             </form>
@@ -41,7 +41,7 @@
 
     <section class="card" style="margin-top:1rem;">
         <h2 style="margin-bottom:.35rem;">Modifier le tournoi</h2>
-        <p style="margin-top:0;">Nom, terrains, duree et mode du tournoi.</p>
+        <p style="margin-top:0;">Nom, terrains, durée et mode du tournoi.</p>
 
         <form method="POST" action="{{ route('tournaments.settings.update', $tournament) }}" style="display:grid; gap:.85rem; max-width:720px;">
             @csrf
@@ -53,7 +53,7 @@
             </label>
 
             <label>
-                Date de debut
+                Date de début
                 <input type="date" name="starts_on" value="{{ old('starts_on', optional($tournament->starts_on)->format('Y-m-d')) }}" required>
             </label>
 
@@ -64,12 +64,12 @@
                 </label>
 
                 <label>
-                    Duree d'un tour - minutes
+                    Durée d'un tour - minutes
                     <input type="number" name="round_duration_minutes" min="0" max="120" value="{{ old('round_duration_minutes', intdiv($roundDurationSeconds, 60)) }}" required>
                 </label>
 
                 <label>
-                    Duree d'un tour - secondes
+                    Durée d'un tour - secondes
                     <input type="number" name="round_duration_seconds" min="0" max="59" value="{{ old('round_duration_seconds', $roundDurationSeconds % 60) }}" required>
                 </label>
             </div>
@@ -78,7 +78,7 @@
                 Mode
                 <select name="format" id="tournamentFormat">
                     <option value="double" @selected(old('format', $tournament->format) === 'double')>Double (2 vs 2)</option>
-                    <option value="team" @selected(old('format', $tournament->format) === 'team')>En equipe</option>
+                    <option value="team" @selected(old('format', $tournament->format) === 'team')>En équipe</option>
                     <option value="mixed" @selected(old('format', $tournament->format) === 'mixed')>Mixte</option>
                 </select>
             </label>
@@ -102,7 +102,7 @@
                 </select>
             </label>
 
-            <button class="btn btn-primary" type="submit" style="width:fit-content;">Enregistrer les parametres</button>
+            <button class="btn btn-primary" type="submit" style="width:fit-content;">Enregistrer les paramètres</button>
         </form>
     </section>
 @endsection

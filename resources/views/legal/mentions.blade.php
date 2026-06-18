@@ -2,55 +2,55 @@
 
 @section('content')
     <section class="card">
-        <h1 style="margin-bottom:.35rem;">Mentions legales</h1>
-        <p style="margin-top:0;">Les informations ci-dessous sont une base a completer selon l'identite exacte de l'editeur et de l'hebergeur.</p>
+        <h1 style="margin-bottom:.35rem;">Mentions légales</h1>
+        <p style="margin-top:0;">Les informations ci-dessous sont une base à compléter selon l'identité exacte de l'éditeur et de l'hébergeur.</p>
     </section>
 
     <section class="grid grid-2" style="margin-top:1rem;">
         <article class="card">
-            <h2 style="margin-top:0;">Editeur du site</h2>
-            <p>Le site TournaBad est edite par son proprietaire.</p>
-            <p><strong>Editeur :</strong> [a completer]</p>
-            <p><strong>Adresse :</strong> [a completer]</p>
-            <p><strong>Contact :</strong> [a completer]</p>
+            <h2 style="margin-top:0;">Éditeur du site</h2>
+            <p>Le site TournaBad est édité par son propriétaire.</p>
+            <p><strong>Éditeur :</strong> [à compléter]</p>
+            <p><strong>Adresse :</strong> [à compléter]</p>
+            <p><strong>Contact :</strong> [à compléter]</p>
         </article>
 
         <article class="card">
-            <h2 style="margin-top:0;">Hebergement</h2>
-            <p><strong>Hebergeur :</strong> [a completer]</p>
-            <p><strong>Adresse :</strong> [a completer]</p>
-            <p><strong>Telephone :</strong> [a completer]</p>
+            <h2 style="margin-top:0;">Hébergement</h2>
+            <p><strong>Hébergeur :</strong> [à compléter]</p>
+            <p><strong>Adresse :</strong> [à compléter]</p>
+            <p><strong>Téléphone :</strong> [à compléter]</p>
         </article>
     </section>
 
     <section class="card" style="margin-top:1rem;">
-        <h2 style="margin-top:0;">Propriete intellectuelle</h2>
-        <p>Le contenu, le code, le design et les elements graphiques du site sont proteges par le droit d'auteur et restent la propriete de leur titulaire.</p>
-        <p>Toute reproduction, diffusion, adaptation ou reutilisation sans autorisation ecrite est interdite.</p>
-        <p>Le nom TournaBad et les contenus associes peuvent egalement etre proteges au titre des droits de marque ou de l'identite visuelle.</p>
+        <h2 style="margin-top:0;">Propriété intellectuelle</h2>
+        <p>Le contenu, le code, le design et les éléments graphiques du site sont protégés par le droit d'auteur et restent la propriété de leur titulaire.</p>
+        <p>Toute reproduction, diffusion, adaptation ou réutilisation sans autorisation écrite est interdite.</p>
+        <p>Le nom TournaBad et les contenus associés peuvent également être protégés au titre des droits de marque ou de l'identité visuelle.</p>
     </section>
 
     <section class="card" style="margin-top:1rem;">
-        <h2 style="margin-top:0;">Responsabilite</h2>
-        <p>L'editeur s'efforce de fournir des informations exactes et de maintenir le service disponible, sans toutefois garantir l'absence totale d'erreur ou d'interruption.</p>
-        <p>L'utilisateur reste responsable des donnees qu'il saisit et de l'usage qu'il fait du service.</p>
+        <h2 style="margin-top:0;">Responsabilité</h2>
+        <p>L'éditeur s'efforce de fournir des informations exactes et de maintenir le service disponible, sans toutefois garantir l'absence totale d'erreur ou d'interruption.</p>
+        <p>L'utilisateur reste responsable des données qu'il saisit et de l'usage qu'il fait du service.</p>
     </section>
 
     <section class="card" style="margin-top:1rem;">
-        <h2 style="margin-top:0;">Donnees personnelles</h2>
-        <p>Les donnees collectées sur TournaBad sont utilisées uniquement pour la gestion des comptes, des tournois et du fonctionnement du service.</p>
-        <p>Conformément au RGPD, les personnes concernées peuvent demander l'acces, la rectification, l'opposition, la limitation ou la suppression de leurs donnees, selon les cas applicables.</p>
-        <p><strong>Base legale :</strong> execution du service, interet legitime de gestion et, si necessaire, consentement de l'utilisateur.</p>
+        <h2 style="margin-top:0;">Données personnelles</h2>
+        <p>Les données collectées sur TournaBad sont utilisées uniquement pour la gestion des comptes, des tournois et du fonctionnement du service.</p>
+        <p>Conformément au RGPD, les personnes concernées peuvent demander l'accès, la rectification, l'opposition, la limitation ou la suppression de leurs données, selon les cas applicables.</p>
+        <p><strong>Base légale :</strong> exécution du service, intérêt légitime de gestion et, si nécessaire, consentement de l'utilisateur.</p>
     </section>
 
     <section class="card" style="margin-top:1rem;">
         <h2 style="margin-top:0;">Cookies et traces techniques</h2>
-        <p>Le site peut utiliser des cookies ou des donnees de session strictement necessaires a l'authentification, a la navigation et au fonctionnement de l'application.</p>
-        <p>Si tu ajoutes des outils de mesure d'audience ou des services tiers, cette section devra etre completee en consequence.</p>
+        <p>Le site peut utiliser des cookies ou des données de session strictement nécessaires à l'authentification, à la navigation et au fonctionnement de l'application.</p>
+        <p>Si tu ajoutes des outils de mesure d'audience ou des services tiers, cette section devra être complétée en conséquence.</p>
     </section>
 
     <section class="card" style="margin-top:1rem;">
         <h2 style="margin-top:0;">Contact</h2>
-        <p>Pour toute demande relative aux mentions legales ou aux donnees personnelles, utilise le contact de l'editeur indique ci-dessus.</p>
+        <p>Pour toute demande relative aux mentions légales ou aux données personnelles, utilise le contact de l'éditeur indiqué ci-dessus.</p>
     </section>
 @endsection

@@ -20,7 +20,7 @@
                     <h1 style="margin-bottom:.35rem;">Compte</h1>
                     <p style="margin:0;">Infos du compte, photo de profil et mot de passe.</p>
                 </div>
-                <a class="btn btn-primary" href="{{ route('tournaments.create') }}">Creer un tournoi</a>
+                <a class="btn btn-primary" href="{{ route('tournaments.create') }}">Créer un tournoi</a>
             </div>
         </section>
 
@@ -62,7 +62,7 @@
 
             <article class="card" style="height:100%;">
                 <h2 style="margin-bottom:.35rem;">Mot de passe</h2>
-                <p style="margin-top:0;">Change ton mot de passe (minimum 8 caracteres).</p>
+                <p style="margin-top:0;">Change ton mot de passe (minimum 8 caractères).</p>
 
                 <form method="POST" action="{{ route('dashboard.password.update') }}" style="display:grid; gap:.85rem;">
                     @csrf
@@ -83,7 +83,7 @@
                         <input type="password" name="password_confirmation" required autocomplete="new-password">
                     </label>
 
-                    <button class="btn btn-primary" type="submit" style="width:fit-content;">Mettre a jour</button>
+                    <button class="btn btn-primary" type="submit" style="width:fit-content;">Mettre à jour</button>
                 </form>
             </article>
         </section>

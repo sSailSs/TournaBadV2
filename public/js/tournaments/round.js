@@ -49,7 +49,7 @@ window.TournamentRound = (() => {
                     });
 
                     if (!response.ok) {
-                        let message = 'Impossible de generer le tour.';
+                        let message = 'Impossible de générer le tour.';
 
                         try {
                             const errorData = await response.json();

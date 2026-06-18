@@ -16,7 +16,7 @@ window.TournamentTimer = (() => {
             const timerAudioName = timerCard?.querySelector('[data-timer-audio-name]');
 
             let timerAudioUrl = timerCard?.dataset.audioUrl || '';
-            let timerAudioLabel = timerCard?.dataset.audioLabel || 'Aucun son selectionne';
+            let timerAudioLabel = timerCard?.dataset.audioLabel || 'Aucun son sélectionné';
             const timerStorageKey = timerRoundId ? `tournabad-timer:${timerRoundId}` : null;
 
             const defaultState = () => ({
@@ -66,7 +66,7 @@ window.TournamentTimer = (() => {
                     timerPlayButton.setAttribute('aria-label', 'Jouer le son');
                 }
                 if (timerState) {
-                    timerState.textContent = !hasRound ? 'Aucun tour' : completed ? 'Termine' : running ? 'En cours' : paused ? 'En pause' : 'Pret';
+                    timerState.textContent = !hasRound ? 'Aucun tour' : completed ? 'Terminé' : running ? 'En cours' : paused ? 'En pause' : 'Prêt';
                 }
             };
 

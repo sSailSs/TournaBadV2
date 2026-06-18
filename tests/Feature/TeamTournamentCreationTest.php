@@ -548,7 +548,7 @@ class TeamTournamentCreationTest extends TestCase
         $response = $this->actingAs($user)->get(route('tournaments.points', $tournament));
 
         $response->assertOk();
-        $response->assertSee('Points des equipes');
+        $response->assertSee('Points des équipes');
         $response->assertSee('Grande equipe');
         $response->assertSee('Petite equipe');
         $response->assertSee('>11<', false);
