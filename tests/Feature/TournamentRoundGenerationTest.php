@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Player;
 use App\Models\Round;
 use App\Models\Tournament;
+use App\Models\TournamentTeam;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -12,6 +13,111 @@ use Tests\TestCase;
 class TournamentRoundGenerationTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_double_round_requires_at_least_four_players(): void
+    {
+        $user = User::factory()->create();
+
+        $tournament = Tournament::create([
+            'creator_id' => $user->id,
+            'name' => 'Tournoi sans joueurs',
+            'starts_on' => now()->addDay()->toDateString(),
+            'courts_count' => 2,
+            'round_duration_minutes' => 12,
+            'format' => 'double',
+            'allow_2v1' => false,
+            'allow_1v1' => false,
+            'status' => 'draft',
+            'description' => null,
+        ]);
+
+        $response = $this->actingAs($user)->postJson(route('tournaments.rounds.generate', $tournament));
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['players'])
+            ->assertJsonPath('errors.players.0', 'Renseigne au moins 4 joueurs pour generer un tour.');
+
+        $this->assertDatabaseMissing('rounds', [
+            'tournament_id' => $tournament->id,
+        ]);
+    }
+
+    public function test_random_team_round_requires_at_least_four_players(): void
+    {
+        $user = User::factory()->create();
+
+        $tournament = Tournament::create([
+            'creator_id' => $user->id,
+            'name' => 'Tournoi equipe aleatoire',
+            'starts_on' => now()->addDay()->toDateString(),
+            'courts_count' => 2,
+            'round_duration_minutes' => 12,
+            'format' => 'team',
+            'team_assignment_mode' => 'random',
+            'team_size' => 2,
+            'status' => 'draft',
+            'description' => null,
+        ]);
+
+        $response = $this->actingAs($user)->postJson(route('tournaments.rounds.generate', $tournament));
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['players'])
+            ->assertJsonPath('errors.players.0', 'Renseigne au moins 4 joueurs pour generer un tour.');
+
+        $this->assertDatabaseMissing('rounds', [
+            'tournament_id' => $tournament->id,
+        ]);
+    }
+
+    public function test_predefined_team_round_requires_two_complete_teams(): void
+    {
+        $user = User::factory()->create();
+
+        $tournament = Tournament::create([
+            'creator_id' => $user->id,
+            'name' => 'Tournoi equipes predefinies',
+            'starts_on' => now()->addDay()->toDateString(),
+            'courts_count' => 2,
+            'round_duration_minutes' => 12,
+            'format' => 'team',
+            'team_assignment_mode' => 'predefined',
+            'team_size' => 2,
+            'status' => 'draft',
+            'description' => null,
+        ]);
+
+        $team = TournamentTeam::create([
+            'tournament_id' => $tournament->id,
+            'name' => 'Equipe 1',
+            'position' => 1,
+        ]);
+
+        foreach (['Alice', 'Bob'] as $index => $name) {
+            $player = Player::create([
+                'tournament_id' => $tournament->id,
+                'first_name' => $name,
+                'last_name' => null,
+                'email' => null,
+                'is_active' => true,
+                'created_by' => $user->id,
+            ]);
+
+            $team->players()->attach($player->id, [
+                'position' => $index + 1,
+            ]);
+        }
+
+        $response = $this->actingAs($user)->postJson(route('tournaments.rounds.generate', $tournament));
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['teams'])
+            ->assertJsonPath('errors.teams.0', 'Renseigne au moins 2 equipes completes avec 2 joueurs minimum par equipe.');
+
+        $this->assertDatabaseMissing('rounds', [
+            'tournament_id' => $tournament->id,
+        ]);
+    }
 
     public function test_authenticated_user_can_generate_a_round(): void
     {

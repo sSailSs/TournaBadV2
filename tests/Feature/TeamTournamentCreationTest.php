@@ -38,6 +38,40 @@ class TeamTournamentCreationTest extends TestCase
         $this->assertCount(0, $tournament->teams);
     }
 
+    public function test_user_cannot_create_more_than_five_tournaments(): void
+    {
+        $user = User::factory()->create();
+
+        foreach (range(1, 5) as $index) {
+            Tournament::create([
+                'creator_id' => $user->id,
+                'name' => 'Tournoi '.$index,
+                'starts_on' => now()->addDay()->toDateString(),
+                'courts_count' => 2,
+                'round_duration_minutes' => 12,
+                'round_duration_seconds' => 720,
+                'status' => 'draft',
+                'description' => null,
+            ]);
+        }
+
+        $response = $this->actingAs($user)->post(route('tournaments.store'), [
+            'creation_type' => 'double',
+            'name' => 'Tournoi en trop',
+            'starts_on' => now()->addDay()->toDateString(),
+            'courts_count' => 2,
+            'round_duration_minutes' => 12,
+            'round_duration_seconds' => 0,
+            'description' => null,
+        ]);
+
+        $response->assertSessionHasErrors([
+            'name' => 'Tu as atteint la limite de 5 tournois par compte.',
+        ]);
+
+        $this->assertSame(5, $user->tournaments()->count());
+    }
+
     public function test_user_can_create_predefined_team_tournament(): void
     {
         $user = User::factory()->create();

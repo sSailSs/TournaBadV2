@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Admin TournaBad',
                 'password' => 'password123',
+                'is_admin' => true,
             ]
         );
 

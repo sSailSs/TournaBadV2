@@ -24,6 +24,28 @@ class AccountDashboardTest extends TestCase
         $response->assertSee('Tournois');
         $response->assertSee('Clique sur le rond');
         $response->assertDontSee('Mes tournois');
+        $response->assertDontSee('Administration');
+    }
+
+    public function test_admin_can_view_registered_user_names(): void
+    {
+        $admin = User::factory()->create([
+            'name' => 'Admin TournaBad',
+            'is_admin' => true,
+        ]);
+        User::factory()->create([
+            'name' => 'Utilisateur Test',
+            'email' => 'utilisateur@example.com',
+        ]);
+
+        $response = $this->actingAs($admin)->get(route('dashboard'));
+
+        $response->assertOk();
+        $response->assertSee('Admin');
+        $response->assertSee('Administration');
+        $response->assertSee('Admin TournaBad');
+        $response->assertSee('Utilisateur Test');
+        $response->assertDontSee('utilisateur@example.com');
     }
 
     public function test_user_can_view_account_tournaments_page(): void

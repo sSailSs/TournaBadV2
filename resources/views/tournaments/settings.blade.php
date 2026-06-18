@@ -41,7 +41,7 @@
 
     <section class="card" style="margin-top:1rem;">
         <h2 style="margin-bottom:.35rem;">Modifier le tournoi</h2>
-        <p style="margin-top:0;">Nom, terrains, duree, mode et options de match.</p>
+        <p style="margin-top:0;">Nom, terrains, duree et mode du tournoi.</p>
 
         <form method="POST" action="{{ route('tournaments.settings.update', $tournament) }}" style="display:grid; gap:.85rem; max-width:720px;">
             @csrf
@@ -80,21 +80,8 @@
                     <option value="double" @selected(old('format', $tournament->format) === 'double')>Double (2 vs 2)</option>
                     <option value="team" @selected(old('format', $tournament->format) === 'team')>En equipe</option>
                     <option value="mixed" @selected(old('format', $tournament->format) === 'mixed')>Mixte</option>
-                    <option value="single" @selected(old('format', $tournament->format) === 'single')>Simple (1 vs 1)</option>
                 </select>
             </label>
-
-            <div class="grid grid-2">
-                <label style="display:flex; align-items:center; gap:.5rem; margin:0; font-weight:600;">
-                    <input type="checkbox" name="allow_2v1" value="1" @checked(old('allow_2v1', $tournament->allow_2v1)) style="width:auto; margin:0;">
-                    Autoriser le 2 vs 1
-                </label>
-
-                <label style="display:flex; align-items:center; gap:.5rem; margin:0; font-weight:600;">
-                    <input type="checkbox" name="allow_1v1" value="1" @checked(old('allow_1v1', $tournament->allow_1v1 || $tournament->format === 'single')) style="width:auto; margin:0;">
-                    Autoriser le 1 vs 1
-                </label>
-            </div>
 
             <label>
                 Description du tournoi

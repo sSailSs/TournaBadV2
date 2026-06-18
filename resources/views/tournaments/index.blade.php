@@ -13,7 +13,7 @@
         @if ($tournaments->isEmpty())
             <p style="margin-top:1rem;">Aucun tournoi pour le moment.</p>
         @else
-            <table class="table" style="margin-top:1rem;">
+            <table class="table responsive-table-desktop" style="margin-top:1rem;">
                 <thead>
                     <tr>
                         <th>Nom</th>
@@ -43,6 +43,27 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <div class="responsive-card-list" style="margin-top:1rem;">
+                @foreach ($tournaments as $tournament)
+                    <article class="tournament-list-card">
+                        <div>
+                            <h3 style="margin-bottom:.25rem;">{{ $tournament->name }}</h3>
+                            <p class="muted" style="margin:0;">
+                                {{ $tournament->format === 'double' ? '2 vs 2' : ucfirst($tournament->format) }}
+                                | {{ $tournament->starts_on?->format('d/m/Y') }}
+                            </p>
+                        </div>
+
+                        <div class="tournament-list-meta">
+                            <span class="tag">{{ $tournament->players_count }} joueur(s)</span>
+                            <span class="tag">{{ ucfirst($tournament->status) }}</span>
+                        </div>
+
+                        <a class="btn btn-primary" href="{{ route('tournaments.show', $tournament) }}">Ouvrir</a>
+                    </article>
+                @endforeach
+            </div>
 
             <div style="margin-top:1rem;">
                 {{ $tournaments->links() }}

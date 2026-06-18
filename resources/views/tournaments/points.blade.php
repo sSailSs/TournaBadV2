@@ -17,14 +17,14 @@
         @else
             <p class="muted" style="margin-top:0; margin-bottom:.75rem;">Clique sur une ligne joueur pour modifier ses points manuellement.</p>
         @endif
-        <table class="table">
+        <table class="table points-table">
             <thead>
                 <tr>
                     <th>{{ ($isTeamPoints ?? false) ? 'Equipe' : 'Joueur' }}</th>
                     <th>Points</th>
-                    <th>Victoires</th>
-                    <th>Défaites</th>
-                    <th>Attentes</th>
+                    <th><span class="points-label-full">Victoires</span><span class="points-label-short">V</span></th>
+                    <th><span class="points-label-full">Défaites</span><span class="points-label-short">D</span></th>
+                    <th><span class="points-label-full">Attentes</span><span class="points-label-short">Att.</span></th>
                 </tr>
             </thead>
             <tbody>

@@ -87,5 +87,35 @@
                 </form>
             </article>
         </section>
+
+        @if ($user->is_admin)
+            <section class="card" style="margin-top:1rem;">
+                <div style="display:flex; align-items:start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+                    <div>
+                        <h2 style="margin-bottom:.35rem;">Administration</h2>
+                        <p style="margin:0;">Vue minimale des comptes inscrits.</p>
+                    </div>
+                    <div class="list">
+                        <span class="tag">{{ $adminStats['users_count'] ?? 0 }} utilisateur(s)</span>
+                        <span class="tag">{{ $adminStats['tournaments_count'] ?? 0 }} tournoi(s)</span>
+                    </div>
+                </div>
+
+                <div style="margin-top:1rem;">
+                    <h3 style="margin-bottom:.6rem;">Utilisateurs</h3>
+                    <ul class="mini-ranking-list">
+                        @forelse ($adminUsers as $adminUser)
+                            <li class="mini-ranking-item" style="grid-template-columns: minmax(0, 1fr);">
+                                <span class="mini-ranking-name">{{ $adminUser->name }}</span>
+                            </li>
+                        @empty
+                            <li class="mini-ranking-item" style="grid-template-columns: minmax(0, 1fr);">
+                                <span class="mini-ranking-name">Aucun utilisateur</span>
+                            </li>
+                        @endforelse
+                    </ul>
+                </div>
+            </section>
+        @endif
     </div>
 @endsection

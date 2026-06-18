@@ -21,5 +21,9 @@
 
             <button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" type="submit">Se connecter</button>
         </form>
+
+        <a class="btn btn-outline" style="margin-top: .75rem; width: 100%;" href="{{ route('register') }}">
+            Pas de compte ? Creer en un
+        </a>
     </div>
 @endsection

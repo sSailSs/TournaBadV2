@@ -106,6 +106,24 @@
             flex-wrap: wrap;
         }
 
+        .mobile-menu-toggle.btn {
+            display: none;
+            flex: 0 0 auto;
+        }
+
+        .hamburger-lines {
+            display: grid;
+            gap: 0.24rem;
+            width: 1.15rem;
+        }
+
+        .hamburger-lines span {
+            display: block;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
+        }
+
         .btn, .btn-link {
             border: 1px solid transparent;
             border-radius: 999px;
@@ -225,6 +243,54 @@
             background: color-mix(in srgb, var(--paper-strong) 88%, transparent 12%);
             color: var(--ink);
             font-size: 0.9rem;
+        }
+
+        .tournament-actions {
+            position: relative;
+            margin-left: auto;
+            z-index: 60;
+        }
+
+        .tournament-header-card {
+            position: relative;
+            z-index: 70;
+        }
+
+        .tournament-actions-desktop {
+            display: flex;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .tournament-actions-mobile {
+            display: none;
+            position: relative;
+        }
+
+        .tournament-actions-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.55rem);
+            right: 0;
+            width: min(260px, 88vw);
+            padding: 0.75rem;
+            gap: 0.6rem;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: color-mix(in srgb, var(--paper-strong) 94%, transparent 6%);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+            z-index: 80;
+        }
+
+        .tournament-actions-menu.is-open {
+            display: grid;
+        }
+
+        .tournament-actions-menu .btn {
+            width: 100%;
+            min-height: 2.8rem;
         }
 
         .match-card {
@@ -440,6 +506,60 @@
         }
 
         @media (max-width: 880px) {
+            .match-flat-list {
+                overflow-x: visible;
+            }
+
+            .match-table-grid {
+                min-width: 0;
+                width: 100%;
+                table-layout: fixed;
+            }
+
+            .match-table-a,
+            .match-table-b {
+                width: 31%;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+                line-height: 1.25;
+            }
+
+            .match-table-a {
+                text-align: right;
+                padding-right: 0.35rem;
+            }
+
+            .match-table-b {
+                text-align: left;
+                padding-left: 0.35rem;
+            }
+
+            .match-table-vs {
+                width: 8%;
+                font-size: 0.76rem;
+            }
+
+            .match-table-score {
+                width: 30%;
+            }
+
+            .match-table-score-wrap {
+                gap: 0.28rem;
+                justify-content: flex-end;
+            }
+
+            .match-table-score-wrap .score-input {
+                width: 2.15rem;
+                max-width: 2.15rem;
+                padding: 0.42rem 0.2rem;
+                text-align: center;
+            }
+
+            .match-table-score-wrap .btn {
+                padding: 0.45rem 0.58rem;
+            }
+
             .match-flat-line {
                 grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
                 row-gap: 0.35rem;
@@ -544,6 +664,33 @@
             letter-spacing: 0.03em;
         }
 
+        .responsive-card-list {
+            display: none;
+        }
+
+        .points-label-short {
+            display: none;
+        }
+
+        .tournament-list-card {
+            display: grid;
+            gap: 0.85rem;
+            padding: 0.95rem;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: color-mix(in srgb, var(--paper-strong) 92%, transparent 8%);
+        }
+
+        .tournament-list-card + .tournament-list-card {
+            margin-top: 0.75rem;
+        }
+
+        .tournament-list-meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
         .muted { color: var(--muted); }
 
         .theme-toggle {
@@ -601,6 +748,10 @@
             width: 300px;
             z-index: 8;
             height: calc(100vh - 408px);
+        }
+
+        .rounds-inline {
+            display: none;
         }
 
         .timer-floating {
@@ -891,6 +1042,18 @@
                 transform: none;
             }
 
+            .final-podium-place-1 {
+                order: 1;
+            }
+
+            .final-podium-place-2 {
+                order: 2;
+            }
+
+            .final-podium-place-3 {
+                order: 3;
+            }
+
             .final-list-item {
                 grid-template-columns: 2.2rem minmax(0, 1fr);
             }
@@ -912,6 +1075,115 @@
             .topbar-inner {
                 height: auto;
                 padding: 0.8rem 0;
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                align-items: center;
+            }
+
+            .brand {
+                min-width: 0;
+            }
+
+            .mobile-menu-toggle.btn {
+                display: inline-flex;
+            }
+
+            .nav {
+                grid-column: 1 / -1;
+                display: none;
+                position: absolute;
+                top: calc(100% + 0.55rem);
+                right: 3%;
+                width: min(260px, 94vw);
+                padding: 0.75rem;
+                align-items: stretch;
+                gap: 0.6rem;
+                border: 1px solid var(--line);
+                border-radius: 18px;
+                background: color-mix(in srgb, var(--paper-strong) 94%, transparent 6%);
+                box-shadow: var(--shadow);
+                backdrop-filter: blur(14px);
+                z-index: 30;
+            }
+
+            .nav.is-open {
+                display: grid;
+            }
+
+            .nav .btn,
+            .nav form,
+            .nav form .btn {
+                width: 100%;
+            }
+
+            .nav .btn {
+                min-height: 2.8rem;
+            }
+
+            .responsive-table-desktop {
+                display: none;
+            }
+
+            .responsive-card-list {
+                display: block;
+            }
+
+            .points-table {
+                table-layout: fixed;
+                font-size: 0.84rem;
+            }
+
+            .points-table th,
+            .points-table td {
+                padding: 0.58rem 0.34rem;
+            }
+
+            .points-table th:first-child,
+            .points-table td:first-child {
+                width: 34%;
+                padding-left: 0;
+            }
+
+            .points-table th:not(:first-child),
+            .points-table td:not(:first-child) {
+                width: 16.5%;
+                text-align: center;
+            }
+
+            .points-table td:first-child {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .points-table .badge {
+                display: none;
+            }
+
+            .points-label-full {
+                display: none;
+            }
+
+            .points-label-short {
+                display: inline;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .tournament-header-main {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1fr) auto;
+                align-items: start !important;
+            }
+
+            .tournament-actions-desktop,
+            .tournament-summary-cards,
+            .tournament-team-config {
+                display: none;
+            }
+
+            .tournament-actions-mobile {
+                display: block;
             }
         }
 
@@ -929,6 +1201,10 @@
             .rounds-floating {
                 display: none;
             }
+
+            .rounds-inline {
+                display: block;
+            }
         }
     </style>
     <script>
@@ -945,7 +1221,15 @@
     <div class="container topbar-inner">
         <a class="brand" href="{{ route('home') }}">TournaBad</a>
 
-        <nav class="nav">
+        <button class="btn btn-outline btn-icon mobile-menu-toggle" type="button" id="mobileMenuToggle" aria-controls="siteNav" aria-expanded="false" aria-label="Ouvrir le menu">
+            <span class="hamburger-lines" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </button>
+
+        <nav class="nav" id="siteNav">
             @auth
                 <a class="btn btn-outline" href="{{ route('home') }}">Accueil</a>
                 <a class="btn btn-outline" href="{{ route('tournaments.index') }}">Tournois</a>
@@ -1003,6 +1287,42 @@
 @stack('scripts')
 
 <script>
+    (() => {
+        const button = document.getElementById('mobileMenuToggle');
+        const nav = document.getElementById('siteNav');
+        if (!button || !nav) return;
+
+        const closeMenu = () => {
+            nav.classList.remove('is-open');
+            button.setAttribute('aria-expanded', 'false');
+            button.setAttribute('aria-label', 'Ouvrir le menu');
+        };
+
+        button.addEventListener('click', () => {
+            const isOpen = nav.classList.toggle('is-open');
+            button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            button.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!nav.classList.contains('is-open')) {
+                return;
+            }
+
+            if (button.contains(event.target) || nav.contains(event.target)) {
+                return;
+            }
+
+            closeMenu();
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
+    })();
+
     (() => {
         const button = document.getElementById('themeToggle');
         if (!button) return;

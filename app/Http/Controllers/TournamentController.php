@@ -44,6 +44,12 @@ class TournamentController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        if ($request->user()->tournaments()->count() >= 5) {
+            throw ValidationException::withMessages([
+                'name' => 'Tu as atteint la limite de 5 tournois par compte.',
+            ]);
+        }
+
         $creationType = $request->input('creation_type') === 'team' ? 'team' : 'double';
 
         $rules = [
@@ -376,6 +382,8 @@ class TournamentController extends Controller
             $tournament->allow_1v1 = $request->boolean('allow_1v1') || $request->boolean('allow1v1');
         }
 
+        $this->ensureTournamentCanGenerateRound($tournament);
+
         $payload = $roundGenerator->generate($tournament);
 
         if ($request->expectsJson()) {
@@ -388,6 +396,58 @@ class TournamentController extends Controller
         return redirect()
             ->route('tournaments.show', $tournament)
             ->with('status', 'Tour genere avec succes.');
+    }
+
+    private function ensureTournamentCanGenerateRound(Tournament $tournament): void
+    {
+        if ((string) $tournament->format === 'team' && (string) $tournament->team_assignment_mode === 'predefined') {
+            $completeTeamsCount = $tournament->teams()
+                ->withCount('players')
+                ->get()
+                ->filter(fn (TournamentTeam $team): bool => (int) $team->players_count >= 2)
+                ->count();
+
+            if ($completeTeamsCount < 2) {
+                throw ValidationException::withMessages([
+                    'teams' => 'Renseigne au moins 2 equipes completes avec 2 joueurs minimum par equipe.',
+                ]);
+            }
+
+            return;
+        }
+
+        $activePlayersCount = $tournament->players()
+            ->where('is_active', true)
+            ->count();
+
+        $minimumPlayers = $this->minimumPlayersForRound($tournament);
+
+        if ($activePlayersCount < $minimumPlayers) {
+            throw ValidationException::withMessages([
+                'players' => sprintf('Renseigne au moins %d joueurs pour generer un tour.', $minimumPlayers),
+            ]);
+        }
+    }
+
+    private function minimumPlayersForRound(Tournament $tournament): int
+    {
+        if ((string) $tournament->format === 'single') {
+            return 2;
+        }
+
+        if ((string) $tournament->format === 'team') {
+            return 4;
+        }
+
+        if ((bool) $tournament->allow_1v1) {
+            return 2;
+        }
+
+        if ((bool) $tournament->allow_2v1) {
+            return 3;
+        }
+
+        return 4;
     }
 
     public function removeRound(Request $request, Tournament $tournament, Round $round): RedirectResponse

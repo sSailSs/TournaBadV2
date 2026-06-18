@@ -120,7 +120,7 @@
 <aside class="account-side-menu" aria-label="Menu compte">
     <a class="account-nav-link {{ ($activeAccountMenu ?? '') === 'account' ? 'is-active' : '' }}" href="{{ route('dashboard') }}">
         Compte
-        <span>Profil</span>
+        <span>{{ auth()->user()?->is_admin ? 'Admin' : 'Profil' }}</span>
     </a>
     <a class="account-nav-link {{ ($activeAccountMenu ?? '') === 'tournaments' ? 'is-active' : '' }}" href="{{ route('dashboard.tournaments') }}">
         Tournois

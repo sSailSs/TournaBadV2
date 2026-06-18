@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tournament;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -43,6 +44,17 @@ class HomeController extends Controller
         return view('dashboard', [
             'user' => $user,
             'stats' => $this->accountStats($user->id),
+            'adminUsers' => $user->is_admin
+                ? User::query()
+                    ->orderBy('name')
+                    ->get(['id', 'name'])
+                : collect(),
+            'adminStats' => $user->is_admin
+                ? [
+                    'users_count' => User::query()->count(),
+                    'tournaments_count' => Tournament::query()->count(),
+                ]
+                : null,
         ]);
     }
 

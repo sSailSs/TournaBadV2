@@ -17,7 +17,7 @@
         <div class="final-podium">
             @foreach ($podiumOrder as $index)
                 @php $player = $topPlayers[$index] ?? null; @endphp
-                <article class="final-podium-card {{ $index === 0 ? 'final-podium-first' : '' }}">
+                <article class="final-podium-card final-podium-place-{{ $index + 1 }} {{ $index === 0 ? 'final-podium-first' : '' }}">
                     <div class="final-rank">{{ $index + 1 }}</div>
                     @if ($player)
                         <h2>{{ $player->full_name ?: $player->first_name }}</h2>

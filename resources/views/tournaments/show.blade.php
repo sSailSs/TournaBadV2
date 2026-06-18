@@ -1,21 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="card">
-        <div style="display:flex; align-items:start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+    <section class="card tournament-header-card">
+        <div class="tournament-header-main" style="display:flex; align-items:start; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
             <div>
                 <h1 style="margin-bottom:.4rem;">{{ $tournament->name }}</h1>
                 <p style="margin:0;">Mode: {{ $tournament->format === 'double' ? '2 vs 2' : ($tournament->format === 'team' ? 'En equipe' : ucfirst($tournament->format)) }} | Date: {{ $tournament->starts_on?->format('d/m/Y') }} | Statut: {{ ucfirst($tournament->status) }}</p>
             </div>
-            <div style="display:flex; gap:.7rem; flex-wrap:wrap;">
-                <a class="btn btn-outline" href="{{ route('tournaments.settings', $tournament) }}">Parametres</a>
-                @if ($tournament->format === 'team' && $tournament->team_assignment_mode === 'predefined')
-                    <a class="btn btn-outline" href="{{ route('tournaments.teams', $tournament) }}">Equipes</a>
-                @else
-                    <a class="btn btn-outline" href="{{ route('tournaments.players', $tournament) }}">Joueurs</a>
-                @endif
-                <a class="btn btn-outline" href="{{ route('tournaments.points', $tournament) }}">Points</a>
-                <a class="btn btn-outline" href="{{ route('tournaments.final', $tournament) }}">Fin du tournoi</a>
+            <div class="tournament-actions">
+                <div class="tournament-actions-desktop">
+                    <a class="btn btn-outline" href="{{ route('tournaments.settings', $tournament) }}">Parametres</a>
+                    @if ($tournament->format === 'team' && $tournament->team_assignment_mode === 'predefined')
+                        <a class="btn btn-outline" href="{{ route('tournaments.teams', $tournament) }}">Equipes</a>
+                    @else
+                        <a class="btn btn-outline" href="{{ route('tournaments.players', $tournament) }}">Joueurs</a>
+                    @endif
+                    <a class="btn btn-outline" href="{{ route('tournaments.points', $tournament) }}">Points</a>
+                    <button class="btn btn-outline" type="button" data-final-open>Fin du tournoi</button>
+                </div>
+
+                <div class="tournament-actions-mobile">
+                    <button class="btn btn-outline btn-icon" type="button" data-tournament-menu-toggle aria-expanded="false" aria-label="Ouvrir le menu du tournoi">
+                        <span class="hamburger-lines" aria-hidden="true">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </button>
+
+                    <div class="tournament-actions-menu" data-tournament-menu>
+                        <a class="btn btn-outline" href="{{ route('tournaments.settings', $tournament) }}">Parametres</a>
+                        @if ($tournament->format === 'team' && $tournament->team_assignment_mode === 'predefined')
+                            <a class="btn btn-outline" href="{{ route('tournaments.teams', $tournament) }}">Equipes</a>
+                        @else
+                            <a class="btn btn-outline" href="{{ route('tournaments.players', $tournament) }}">Joueurs</a>
+                        @endif
+                        <a class="btn btn-outline" href="{{ route('tournaments.points', $tournament) }}">Points</a>
+                        <button class="btn btn-outline" type="button" data-final-open>Fin du tournoi</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -67,43 +90,11 @@
 
     <aside class="rounds-floating" aria-label="Tours du tournoi">
         <section class="card">
-            <div style="display:flex; align-items:start; justify-content:space-between; gap:.75rem; flex-wrap:wrap; margin-bottom:.75rem;">
-                <div>
-                    <h3 style="margin-bottom:.35rem;">Tours</h3>
-                    <p class="muted" style="margin:0;">Ancien tours et tour courant</p>
-                </div>
-
-                @if ($canReturnToCurrentRound)
-                    <a class="btn btn-outline" href="{{ route('tournaments.show', $tournament) }}">Revenir au tour en cours</a>
-                @endif
-            </div>
-
-            <div class="rounds-scroll">
-                <ol class="mini-ranking-list">
-                    @forelse ($roundMenu as $roundItem)
-                        <li class="mini-ranking-item {{ $roundItem['is_selected'] ? 'round-item-selected' : '' }} {{ $roundItem['is_current'] ? 'round-item-current' : '' }}" style="grid-template-columns: 26px minmax(0, 1fr) auto;">
-                            <span class="mini-ranking-pos">{{ $roundItem['number'] }}</span>
-                            <a class="mini-ranking-name" href="{{ route('tournaments.show', ['tournament' => $tournament, 'round' => $roundItem['id']]) }}" style="text-decoration:none; color:inherit;">
-                                Tour {{ $roundItem['number'] }}
-                                @if ($roundItem['is_current'])
-                                    <span class="badge" style="margin-left:.35rem;">en cours</span>
-                                @endif
-                            </a>
-                            <span class="round-status round-status-{{ $roundItem['status_key'] }}">{{ $roundItem['status_label'] }}</span>
-                        </li>
-                    @empty
-                        <li class="mini-ranking-item">
-                            <span class="mini-ranking-pos">-</span>
-                            <span class="mini-ranking-name">Aucun tour</span>
-                            <span class="mini-ranking-points">-</span>
-                        </li>
-                    @endforelse
-                </ol>
-            </div>
+            @include('tournaments._rounds_menu')
         </section>
     </aside>
 
-    <section class="grid grid-3" style="margin-top:1rem;">
+    <section class="grid grid-3 tournament-summary-cards" style="margin-top:1rem;">
         <article class="card">
             <h3>Terrains</h3>
             <p><strong>{{ $tournament->courts_count }}</strong> terrain(x)</p>
@@ -121,7 +112,7 @@
     </section>
 
     @if ($tournament->format === 'team')
-        <section class="card" style="margin-top:1rem;">
+        <section class="card tournament-team-config" style="margin-top:1rem;">
             <h2 style="margin-bottom:.35rem;">Configuration des equipes</h2>
             @if ($tournament->team_assignment_mode === 'random')
                 <p style="margin:0;">Composition aleatoire avec <strong>{{ $tournament->team_size }}</strong> personne(s) par equipe.</p>
@@ -187,6 +178,26 @@
         </div>
     @endif
 
+    <div id="finalTournamentModal"
+        style="position:fixed; inset:0; z-index:75; background:rgba(6,12,24,.62); display:none; align-items:center; justify-content:center; padding:1rem;"
+    >
+        <div class="card" style="width:min(520px, 100%);">
+            <h3 style="margin-top:0; margin-bottom:.4rem;">Finir le tournoi ?</h3>
+            <p class="muted" style="margin:0 0 1rem;">
+                Souhaitez-vous finir le tournoi ? Les resultats seront affiches avec un historique. Vous pourrez toujours reprendre le tournoi par la suite.
+            </p>
+
+            <div style="display:flex; justify-content:flex-end; gap:.65rem; flex-wrap:wrap;">
+                <button class="btn btn-outline" type="button" data-final-close>Annuler</button>
+                <a class="btn btn-primary" href="{{ route('tournaments.final', $tournament) }}">Voir les resultats</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="card rounds-inline" style="margin-top:1rem;" aria-label="Tours du tournoi">
+        @include('tournaments._rounds_menu')
+    </section>
+
     <aside class="mini-ranking-floating" aria-label="Mini classement">
         <section class="card">
             <h3 style="margin-bottom:.45rem;">Mini classement</h3>
@@ -231,6 +242,86 @@
 @endsection
 
 @push('scripts')
+    <script>
+        (() => {
+            document.querySelectorAll('[data-tournament-menu-toggle]').forEach((button) => {
+                const wrapper = button.closest('.tournament-actions-mobile');
+                const menu = wrapper?.querySelector('[data-tournament-menu]');
+
+                if (!menu) {
+                    return;
+                }
+
+                const closeMenu = () => {
+                    menu.classList.remove('is-open');
+                    button.setAttribute('aria-expanded', 'false');
+                    button.setAttribute('aria-label', 'Ouvrir le menu du tournoi');
+                };
+
+                button.addEventListener('click', () => {
+                    const isOpen = menu.classList.toggle('is-open');
+                    button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    button.setAttribute('aria-label', isOpen ? 'Fermer le menu du tournoi' : 'Ouvrir le menu du tournoi');
+                });
+
+                document.addEventListener('click', (event) => {
+                    if (!menu.classList.contains('is-open')) {
+                        return;
+                    }
+
+                    if (button.contains(event.target) || menu.contains(event.target)) {
+                        return;
+                    }
+
+                    closeMenu();
+                });
+
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 900) {
+                        closeMenu();
+                    }
+                });
+            });
+        })();
+    </script>
+
+    <script>
+        (() => {
+            const modal = document.getElementById('finalTournamentModal');
+            const openButtons = document.querySelectorAll('[data-final-open]');
+            const closeButton = document.querySelector('[data-final-close]');
+
+            if (!modal || !openButtons.length || !closeButton) {
+                return;
+            }
+
+            const openModal = () => {
+                modal.style.display = 'flex';
+                closeButton.focus();
+            };
+
+            const closeModal = () => {
+                modal.style.display = 'none';
+            };
+
+            openButtons.forEach((button) => {
+                button.addEventListener('click', openModal);
+            });
+
+            closeButton.addEventListener('click', closeModal);
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modal.style.display !== 'none') {
+                    closeModal();
+                }
+            });
+        })();
+    </script>
+
     @if ($currentRound)
         <script>
             (() => {
