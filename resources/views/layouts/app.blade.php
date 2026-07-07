@@ -68,7 +68,7 @@
             backdrop-filter: blur(14px);
             position: sticky;
             top: 0;
-            z-index: 20;
+            z-index: 100;
         }
 
         .topbar-inner {
@@ -1119,7 +1119,7 @@
                 background: color-mix(in srgb, var(--paper-strong) 94%, transparent 6%);
                 box-shadow: var(--shadow);
                 backdrop-filter: blur(14px);
-                z-index: 30;
+                z-index: 110;
             }
 
             .nav.is-open {

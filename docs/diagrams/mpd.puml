@@ -1,5 +1,5 @@
 @startuml
-title TournaBad - MPD simplifie
+title TournaBad : MPD simplifié
 
 skinparam shadowing false
 skinparam linetype ortho
@@ -22,6 +22,9 @@ entity "tournaments" as tournaments {
   round_duration_seconds : integer
   status : varchar
   format : varchar
+  team_assignment_mode : varchar
+  team_size : tinyint
+  team_display_mode : varchar
 }
 
 entity "players" as players {
@@ -78,9 +81,26 @@ entity "round_waiting_players" as waiting {
   player_id : bigint <<FK>>
 }
 
-users "1" -- "0..*" tournaments : creator_id
-users "1" -- "0..*" players : created_by
-users "1" -- "0..*" scores : recorded_by
+entity "tournament_teams" as teams {
+  *id : bigint
+  --
+  tournament_id : bigint <<FK>>
+  name : varchar
+  team_label : varchar
+  position : smallint
+}
+
+entity "tournament_team_players" as team_players {
+  *id : bigint
+  --
+  tournament_team_id : bigint <<FK>>
+  player_id : bigint <<FK>>
+  position : smallint
+}
+
+users "0..1" -- "0..*" tournaments : creator_id
+users "0..1" -- "0..*" players : created_by
+users "0..1" -- "0..*" scores : recorded_by
 
 tournaments "1" -- "0..*" players : tournament_id
 tournaments "1" -- "0..*" rounds : tournament_id
@@ -95,6 +115,10 @@ matches "1" -- "0..*" match_players : tournament_match_id
 players "1" -- "0..*" match_players : player_id
 
 matches "1" -- "0..1" scores : tournament_match_id
+
+tournaments "1" -- "0..*" teams : tournament_id
+teams "1" -- "0..*" team_players : tournament_team_id
+players "1" -- "0..*" team_players : player_id
 
 note right of match_players
   Table de liaison :

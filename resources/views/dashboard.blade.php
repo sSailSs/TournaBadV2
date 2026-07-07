@@ -3,12 +3,9 @@
 @section('content')
     @php
         $activeAccountMenu = 'account';
-        $profilePhotoUrl = $user->profile_photo_path ? asset('storage/'.$user->profile_photo_path) : null;
-        $initials = collect(explode(' ', $user->name))
-            ->filter()
-            ->take(2)
-            ->map(fn ($part) => mb_strtoupper(mb_substr($part, 0, 1)))
-            ->implode('');
+        $profilePhotoUrl = $user->profile_photo_path
+            ? asset('storage/'.$user->profile_photo_path)
+            : asset('image/PhotoProf.jpg');
     @endphp
 
     @include('dashboard._account_nav', ['activeAccountMenu' => $activeAccountMenu])
@@ -32,11 +29,7 @@
 
                     <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-bottom:.2rem;">
                         <label class="account-avatar" aria-label="Modifier la photo de profil">
-                            @if ($profilePhotoUrl)
-                                <img src="{{ $profilePhotoUrl }}" alt="Photo de profil de {{ $user->name }}">
-                            @else
-                                <span>{{ $initials ?: 'TB' }}</span>
-                            @endif
+                            <img src="{{ $profilePhotoUrl }}" alt="Photo de profil de {{ $user->name }}">
                             <input class="account-file-input" type="file" name="profile_photo" accept="image/*">
                         </label>
 
